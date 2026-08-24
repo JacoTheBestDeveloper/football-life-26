@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Football Life 26 - Career Hub</title>
+    <title>Football Life 26 - Career & National Hub</title>
     <link rel="icon" type="image/png" href="https://a.espncdn.com/i/teamlogos/soccer/505/110.png">
     
     <style>
@@ -139,11 +139,7 @@
             align-items: center;
             flex-wrap: wrap;
         }
-        .career-controls input {
-            margin-bottom: 0;
-            width: 180px;
-        }
-        .career-controls select {
+        .career-controls input, .career-controls select {
             margin-bottom: 0;
             width: 180px;
         }
@@ -254,7 +250,6 @@
             color: #8b949e;
         }
 
-        /* Celle modificabili direttamente con un click */
         [contenteditable="true"] {
             outline: 1px dashed rgba(88, 166, 255, 0.4);
             padding: 2px 4px;
@@ -306,7 +301,7 @@
     <!-- 1. SCHERMATA DI BENVENUTO -->
     <div id="welcome-screen">
         <h1>🎮 FOOTBALL LIFE 26</h1>
-        <p>Gestisci le tue Master League e Dinastie Calcistiche</p>
+        <p>Gestisci le tue Master League, Club e Nazionali</p>
         <button class="btn-start" onclick="iniziaCarriera()">INIZIA CARRIERA</button>
     </div>
 
@@ -314,7 +309,7 @@
     <div id="main-app">
         <div class="main-title">
             <h2>FOOTBALL LIFE 26 - HUB CARRIERA</h2>
-            <p>Pannello di controllo tattico e gestionale</p>
+            <p>Pannello di controllo tattico, club e nazionali</p>
         </div>
 
         <!-- SALVATAGGIO / CARICAMENTO CARRIERE -->
@@ -334,11 +329,21 @@
             <!-- SCHEDA DELLA SQUADRA -->
             <div class="card">
                 <div class="team-logo-container" id="logo-box">
-                    <!-- LOGO PERSONALIZZATO CREATO APPOSITAMENTE -->
-                    <svg viewBox="0 0 100 100" width="50" height="50">
-                        <polygon points="50,5 95,25 95,65 50,95 5,65 5,25" fill="#161b22" stroke="#58a6ff" stroke-width="5"/>
-                        <circle cx="50" cy="50" r="25" fill="#ffffff" stroke="#091a10" stroke-width="3"/>
-                        <path d="M50,25 L62,38 L55,55 L45,55 L38,38 Z" fill="#111111"/>
+                    <!-- NUOVO LOGO PERSONALIZZATO CON FL, PALLONE E COPPE LATERALI -->
+                    <svg viewBox="0 0 120 100" width="60" height="50">
+                        <!-- Coppa sinistra -->
+                        <path d="M15,35 L25,35 L23,55 C23,60 17,62 15,62 C13,62 7,60 7,55 L5,35 Z" fill="#e3b341"/>
+                        <path d="M11,62 L19,62 L18,72 L12,72 Z" fill="#e3b341"/>
+                        <rect x="8" y="72" width="14" height="4" fill="#8b949e"/>
+                        <!-- Coppa destra -->
+                        <path d="M95,35 L105,35 L103,55 C103,60 97,62 95,62 C93,62 87,60 87,55 L85,35 Z" fill="#e3b341"/>
+                        <path d="M91,62 L99,62 L98,72 L92,72 Z" fill="#e3b341"/>
+                        <rect x="88" y="72" width="14" height="4" fill="#8b949e"/>
+                        <!-- Scudo centrale -->
+                        <polygon points="60,10 90,25 90,65 60,90 30,65 30,25" fill="#161b22" stroke="#58a6ff" stroke-width="4"/>
+                        <!-- Pallone al centro con iniziali FL -->
+                        <circle cx="60" cy="50" r="22" fill="#ffffff" stroke="#091a10" stroke-width="2"/>
+                        <text x="60" y="57" font-size="16" font-weight="bold" fill="#091a10" text-anchor="middle" font-family="Arial">FL</text>
                     </svg>
                 </div>
                 <h3 id="display-team">La Tua Squadra</h3>
@@ -401,6 +406,32 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+
+        <!-- SEZIONE NAZIONALI -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <h3>🌍 Gestione Nazionale (CT / Tornei)</h3>
+                <button class="btn-small" onclick="aggiungiConvocato()">+ Aggiungi Convocato</button>
+            </div>
+            <div style="margin-bottom: 12px; display: flex; gap: 15px; flex-wrap: wrap;">
+                <input type="text" id="input-national-team" placeholder="Nazionale Guidata (es. Italia 🇮🇹)" style="max-width: 280px; margin-bottom: 0;">
+                <input type="text" id="input-national-comp" placeholder="Torneo Nazionale (es. Mondiali 2026)" style="max-width: 280px; margin-bottom: 0;">
+                <button class="btn-small" onclick="aggiornaNazionale()" style="background-color: #238636;">Imposta Nazionale</button>
+            </div>
+            <p style="margin: 5px 0 12px 0; color: #8b949e; font-size: 13px;">Stato Nazionale Attuale: <strong id="display-national" style="color: #58a6ff;">Nessuna Nazionale Selezionata</strong></p>
+            
+            <table id="national-table">
+                <thead>
+                    <tr>
+                        <th>Ruolo</th>
+                        <th>Giocatore Convocato</th>
+                        <th>Club di Appartenenza</th>
+                        <th>Note / Status</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
 
         <!-- CALENDARIO PARTITE -->
@@ -511,10 +542,16 @@
         };
 
         const logoPersonalizzato = `
-            <svg viewBox="0 0 100 100" width="50" height="50">
-                <polygon points="50,5 95,25 95,65 50,95 5,65 5,25" fill="#161b22" stroke="#58a6ff" stroke-width="5"/>
-                <circle cx="50" cy="50" r="25" fill="#ffffff" stroke="#091a10" stroke-width="3"/>
-                <path d="M50,25 L62,38 L55,55 L45,55 L38,38 Z" fill="#111111"/>
+            <svg viewBox="0 0 120 100" width="60" height="50">
+                <path d="M15,35 L25,35 L23,55 C23,60 17,62 15,62 C13,62 7,60 7,55 L5,35 Z" fill="#e3b341"/>
+                <path d="M11,62 L19,62 L18,72 L12,72 Z" fill="#e3b341"/>
+                <rect x="8" y="72" width="14" height="4" fill="#8b949e"/>
+                <path d="M95,35 L105,35 L103,55 C103,60 97,62 95,62 C93,62 87,60 87,55 L85,35 Z" fill="#e3b341"/>
+                <path d="M91,62 L99,62 L98,72 L92,72 Z" fill="#e3b341"/>
+                <rect x="88" y="72" width="14" height="4" fill="#8b949e"/>
+                <polygon points="60,10 90,25 90,65 60,90 30,65 30,25" fill="#161b22" stroke="#58a6ff" stroke-width="4"/>
+                <circle cx="60" cy="50" r="22" fill="#ffffff" stroke="#091a10" stroke-width="2"/>
+                <text x="60" y="57" font-size="16" font-weight="bold" fill="#091a10" text-anchor="middle" font-family="Arial">FL</text>
             </svg>
         `;
 
@@ -557,6 +594,20 @@
             if (wage !== "") document.getElementById('display-wage').innerText = wage;
             if (trofei !== "") document.getElementById('display-trophies').innerText = trofei;
             if (punti !== "") document.getElementById('table-pts').innerText = punti;
+        }
+
+        function aggiornaNazionale() {
+            let natTeam = document.getElementById('input-national-team').value.trim();
+            let natComp = document.getElementById('input-national-comp').value.trim();
+            if (natTeam !== "" || natComp !== "") {
+                document.getElementById('display-national').innerText = `${natTeam} (${natComp})`;
+            }
+        }
+
+        function aggiungiConvocato(ruolo = "ATT", nome = "Nome Giocatore", club = "Club", note = "Titolare") {
+            let table = document.getElementById('national-table').getElementsByTagName('tbody')[0];
+            let newRow = table.insertRow();
+            newRow.innerHTML = `<td contenteditable="true">${ruolo}</td><td contenteditable="true">${nome}</td><td contenteditable="true">${club}</td><td contenteditable="true">${note}</td>`;
         }
 
         function aggiungiRigaCalendario(giornata = "1ª Giornata", avversario = "Avversario", luogo = "Casa 🏠", stato = "Da Giocare") {
@@ -605,13 +656,15 @@
                 wage: document.getElementById('display-wage').innerText,
                 trophies: document.getElementById('display-trophies').innerText,
                 pts: document.getElementById('table-pts').innerText,
+                nationalText: document.getElementById('display-national').innerText,
                 logoHtml: document.getElementById('logo-box').innerHTML,
                 
                 calendar: getTableData('calendar-table'),
                 market: getTableData('market-table'),
                 scorers: getTableData('scorers-table'),
                 assists: getTableData('assists-table'),
-                roster: getTableData('roster-table')
+                roster: getTableData('roster-table'),
+                national: getTableData('national-table')
             };
 
             localStorage.setItem("fl26_carriera_" + nomeCarriera, JSON.stringify(datiCarriera));
@@ -669,6 +722,7 @@
             document.getElementById('display-wage').innerText = data.wage;
             document.getElementById('display-trophies').innerText = data.trophies;
             document.getElementById('table-pts').innerText = data.pts;
+            if(data.nationalText) document.getElementById('display-national').innerText = data.nationalText;
             document.getElementById('logo-box').innerHTML = data.logoHtml;
 
             loadTableData('calendar-table', data.calendar);
@@ -676,6 +730,7 @@
             loadTableData('scorers-table', data.scorers);
             loadTableData('assists-table', data.assists);
             loadTableData('roster-table', data.roster);
+            loadTableData('national-table', data.national);
         }
 
         function loadTableData(tableId, data) {
