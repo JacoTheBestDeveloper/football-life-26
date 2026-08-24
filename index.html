@@ -184,13 +184,11 @@
             align-items: center;
             justify-content: center;
         }
-        .team-logo-container img {
-            max-height: 50px;
-            max-width: 50px;
+        .team-logo-container img, .team-logo-container svg {
+            max-height: 52px;
+            max-width: 52px;
             object-fit: contain;
-        }
-        .fallback-icon {
-            font-size: 40px;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
         }
 
         .card h3, .controls h3, .table-box h3 {
@@ -336,7 +334,12 @@
             <!-- SCHEDA DELLA SQUADRA -->
             <div class="card">
                 <div class="team-logo-container" id="logo-box">
-                    <div class="fallback-icon">⚽</div>
+                    <!-- LOGO PERSONALIZZATO CREATO APPOSITAMENTE -->
+                    <svg viewBox="0 0 100 100" width="50" height="50">
+                        <polygon points="50,5 95,25 95,65 50,95 5,65 5,25" fill="#161b22" stroke="#58a6ff" stroke-width="5"/>
+                        <circle cx="50" cy="50" r="25" fill="#ffffff" stroke="#091a10" stroke-width="3"/>
+                        <path d="M50,25 L62,38 L55,55 L45,55 L38,38 Z" fill="#111111"/>
+                    </svg>
                 </div>
                 <h3 id="display-team">La Tua Squadra</h3>
                 <div class="season">Stagione 2026/2027 • Master League</div>
@@ -507,6 +510,14 @@
             "barcelona": "https://a.espncdn.com/i/teamlogos/soccer/505/83.png"
         };
 
+        const logoPersonalizzato = `
+            <svg viewBox="0 0 100 100" width="50" height="50">
+                <polygon points="50,5 95,25 95,65 50,95 5,65 5,25" fill="#161b22" stroke="#58a6ff" stroke-width="5"/>
+                <circle cx="50" cy="50" r="25" fill="#ffffff" stroke="#091a10" stroke-width="3"/>
+                <path d="M50,25 L62,38 L55,55 L45,55 L38,38 Z" fill="#111111"/>
+            </svg>
+        `;
+
         let carrieraCorrente = "";
 
         window.onload = function() {
@@ -537,7 +548,7 @@
                 if (loghiSquadre[chiave]) {
                     logoBox.innerHTML = `<img src="${loghiSquadre[chiave]}" alt="${squadraInput}">`;
                 } else {
-                    logoBox.innerHTML = `<div class="fallback-icon">🛡️</div>`;
+                    logoBox.innerHTML = logoPersonalizzato;
                 }
             }
             if (allenatore !== "") document.getElementById('display-coach').innerText = allenatore;
