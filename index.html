@@ -203,7 +203,7 @@
             margin-bottom: 25px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.7);
             flex-wrap: wrap;
-            gap: 10px;
+            gap: 12px;
         }
         .career-manager-box h4 {
             margin: 0;
@@ -212,21 +212,25 @@
         }
         .career-controls {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: center;
             flex-wrap: wrap;
         }
         .career-controls input, .career-controls select {
             margin-bottom: 0;
-            width: 180px;
+            width: 160px;
         }
         .btn-career {
             width: auto;
-            padding: 8px 15px;
+            padding: 8px 12px;
             font-size: 13px;
             background-color: var(--btn-green);
         }
         .btn-career:hover { background-color: var(--btn-green-hover); }
+        .btn-secondary {
+            background-color: #30363d !important;
+        }
+        .btn-secondary:hover { background-color: #484f58 !important; }
         .btn-danger {
             background-color: #da3633 !important;
         }
@@ -289,7 +293,7 @@
         }
         .stat-row:last-child { margin-bottom: 0; }
         
-        input, select {
+        input, select, textarea {
             width: 100%;
             padding: 8px;
             margin-bottom: 10px;
@@ -298,6 +302,11 @@
             border-radius: 6px;
             color: var(--text-main);
             box-sizing: border-box;
+            font-family: inherit;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 90px;
         }
         button {
             width: 100%;
@@ -414,15 +423,18 @@
             <p>Pannello di controllo tattico, club e nazionali</p>
         </div>
 
-        <!-- SALVATAGGIO / CARICAMENTO CARRIERE -->
+        <!-- SALVATAGGIO / CARICAMENTO CARRIERE & BACKUP JSON -->
         <div class="career-manager-box">
-            <h4>💾 Archivio Carriere</h4>
+            <h4>💾 Archivio & Backup</h4>
             <div class="career-controls">
                 <select id="saved-careers-select" onchange="caricaCarrieraSelezionata()">
-                    <option value="">Seleziona una carriera salvata...</option>
+                    <option value="">Seleziona carriera salvata...</option>
                 </select>
-                <input type="text" id="career-name-input" placeholder="Nome Carriera (es. Inter 2026)">
+                <input type="text" id="career-name-input" placeholder="Nome Carriera">
                 <button class="btn-career" onclick="salvaCarrieraCorrente()">Salva</button>
+                <button class="btn-career btn-secondary" onclick="esportaCarrieraJSON()" title="Esporta File JSON">📥 Esporta</button>
+                <button class="btn-career btn-secondary" onclick="document.getElementById('import-file-input').click()" title="Importa File JSON">📤 Importa</button>
+                <input type="file" id="import-file-input" style="display:none" accept=".json" onchange="importaCarrieraJSON(event)">
                 <button class="btn-career btn-danger" onclick="eliminaCarrieraCorrente()">Elimina</button>
             </div>
         </div>
@@ -464,6 +476,10 @@
                         <strong id="display-wage">€ 2.5M</strong>
                     </div>
                     <div class="stat-row">
+                        <span>OVR Medio Rosa:</span>
+                        <strong id="display-avg-ovr" style="color: var(--accent-color);">0</strong>
+                    </div>
+                    <div class="stat-row">
                         <span>Trofei vinti:</span>
                         <strong id="display-trophies">0</strong>
                     </div>
@@ -503,6 +519,14 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+
+        <!-- DIARIO DELL'ALLENATORE -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <h3>📝 Diario dell'Allenatore & Note Tattiche</h3>
+            </div>
+            <textarea id="manager-diary" placeholder="Scrivi qui gli obiettivi della dirigenza, le idee di formazione, i colpi di mercato pianificati o il riassunto della stagione..."></textarea>
         </div>
 
         <!-- BACHECA TROFEI VISIVA -->
@@ -625,7 +649,7 @@
         <!-- CLASSIFICA MARCATORI -->
         <div class="full-width-section">
             <div class="section-header">
-                <h3>⚽ I Miei Marcatori</h3>
+                <h3>⚽ I Miei Marcatori <span id="total-goals-badge" style="font-size: 13px; color: var(--accent-color); font-weight: normal; margin-left: 10px;">(Totale Gol: 0)</span></h3>
                 <button class="btn-small" onclick="aggiungiMarcatore()">+ Aggiungi Giocatore</button>
             </div>
             <table id="scorers-table">
@@ -643,7 +667,7 @@
         <!-- CLASSIFICA ASSIST -->
         <div class="full-width-section">
             <div class="section-header">
-                <h3>🎯 I Miei Assist-man</h3>
+                <h3>🎯 I Miei Assist-man <span id="total-assists-badge" style="font-size: 13px; color: var(--accent-color); font-weight: normal; margin-left: 10px;">(Totale Assist: 0)</span></h3>
                 <button class="btn-small" onclick="aggiungiAssistman()">+ Aggiungi Giocatore</button>
             </div>
             <table id="assists-table">
@@ -696,6 +720,10 @@
 
         window.onload = function() {
             aggiornaListaCarriere();
+            // Ascoltatore globale per ricalcolare statistiche in tempo reale
+            document.addEventListener('input', function() {
+                calcolaStatisticheGlobali();
+            });
         };
 
         function mostraToast(messaggio) {
@@ -719,6 +747,50 @@
             let temaSalvato = localStorage.getItem('fl26_tema') || 'classic';
             document.body.setAttribute('data-theme', temaSalvato);
             document.getElementById('theme-changer').value = temaSalvato;
+            calcolaStatisticheGlobali();
+        }
+
+        function calcolaStatisticheGlobali() {
+            // Ricalcola OVR Medio Rosa (colonna index 2 di roster-table)
+            let rosterRows = document.querySelectorAll("#roster-table tbody tr");
+            let sommaOvr = 0;
+            let countOvr = 0;
+            rosterRows.forEach(row => {
+                let cellOvr = row.querySelectorAll("td")[2];
+                if (cellOvr) {
+                    let val = parseInt(cellOvr.innerText.trim());
+                    if (!isNaN(val)) {
+                        sommaOvr += val;
+                        countOvr++;
+                    }
+                }
+            });
+            let avgOvr = countOvr > 0 ? Math.round(sommaOvr / countOvr) : 0;
+            document.getElementById('display-avg-ovr').innerText = avgOvr > 0 ? avgOvr : "N/D";
+
+            // Ricalcola Totale Gol Marcatori (colonna index 2 di scorers-table)
+            let scorerRows = document.querySelectorAll("#scorers-table tbody tr");
+            let totaleGol = 0;
+            scorerRows.forEach(row => {
+                let cellGol = row.querySelectorAll("td")[2];
+                if (cellGol) {
+                    let val = parseInt(cellGol.innerText.trim());
+                    if (!isNaN(val)) totaleGol += val;
+                }
+            });
+            document.getElementById('total-goals-badge').innerText = `(Totale Gol: ${totaleGol})`;
+
+            // Ricalcola Totale Assist (colonna index 2 di assists-table)
+            let assistRows = document.querySelectorAll("#assists-table tbody tr");
+            let totaleAssist = 0;
+            assistRows.forEach(row => {
+                let cellAssist = row.querySelectorAll("td")[2];
+                if (cellAssist) {
+                    let val = parseInt(cellAssist.innerText.trim());
+                    if (!isNaN(val)) totaleAssist += val;
+                }
+            });
+            document.getElementById('total-assists-badge').innerText = `(Totale Assist: ${totaleAssist})`;
         }
 
         function aggiornaDati() {
@@ -810,29 +882,26 @@
             let table = document.getElementById('scorers-table').getElementsByTagName('tbody')[0];
             let newRow = table.insertRow();
             newRow.innerHTML = `<td contenteditable="true">${nome}</td><td contenteditable="true">${ruolo}</td><td contenteditable="true">${gol}</td>`;
+            calcolaStatisticheGlobali();
         }
 
         function aggiungiAssistman(nome = "Nome Giocatore", ruolo = "CC", assist = "0") {
             let table = document.getElementById('assists-table').getElementsByTagName('tbody')[0];
             let newRow = table.insertRow();
             newRow.innerHTML = `<td contenteditable="true">${nome}</td><td contenteditable="true">${ruolo}</td><td contenteditable="true">${assist}</td>`;
+            calcolaStatisticheGlobali();
         }
 
         function aggiungiTitolare(ruolo = "POR", nome = "Nome Giocatore", ovr = "80") {
             let table = document.getElementById('roster-table').getElementsByTagName('tbody')[0];
             let newRow = table.insertRow();
             newRow.innerHTML = `<td contenteditable="true">${ruolo}</td><td contenteditable="true">${nome}</td><td contenteditable="true">${ovr}</td>`;
+            calcolaStatisticheGlobali();
         }
 
-        // --- SALVATAGGIO MULTI-CARRIERA ---
-        function salvaCarrieraCorrente() {
-            let nomeCarriera = document.getElementById('career-name-input').value.trim();
-            if (!nomeCarriera) {
-                mostraToast("Inserisci un nome per la carriera!");
-                return;
-            }
-
-            let datiCarriera = {
+        // --- GESTIONE DATI & BACKUP JSON ---
+        function raccogliDatiCarriera() {
+            return {
                 team: document.getElementById('display-team').innerText,
                 coach: document.getElementById('display-coach').innerText,
                 league: document.getElementById('display-league').innerText,
@@ -842,6 +911,7 @@
                 pts: document.getElementById('table-pts').innerText,
                 nationalText: document.getElementById('display-national').innerText,
                 europeComp: document.getElementById('display-europe-comp').innerText,
+                diaryText: document.getElementById('manager-diary').value,
                 logoHtml: document.getElementById('logo-box').innerHTML,
                 trophiesHtml: document.getElementById('trophy-container').innerHTML,
                 
@@ -853,11 +923,88 @@
                 national: getTableData('national-table'),
                 europeMatches: getTableData('europe-table')
             };
+        }
 
+        function applicaDatiCarriera(data, nomeCarriera) {
+            carrieraCorrente = nomeCarriera;
+            document.getElementById('career-name-input').value = nomeCarriera;
+
+            document.getElementById('display-team').innerText = data.team;
+            document.getElementById('table-first').innerText = data.team;
+            document.getElementById('display-coach').innerText = data.coach;
+            document.getElementById('display-league').innerText = data.league;
+            document.getElementById('display-budget').innerText = data.budget;
+            document.getElementById('display-wage').innerText = data.wage;
+            document.getElementById('display-trophies').innerText = data.trophies;
+            document.getElementById('table-pts').innerText = data.pts;
+            if(data.nationalText) document.getElementById('display-national').innerText = data.nationalText;
+            if(data.europeComp) {
+                document.getElementById('display-europe-comp').innerText = data.europeComp;
+                document.getElementById('input-europe-comp').value = data.europeComp;
+            }
+            if(data.diaryText !== undefined) document.getElementById('manager-diary').value = data.diaryText;
+            document.getElementById('logo-box').innerHTML = data.logoHtml;
+            if(data.trophiesHtml) document.getElementById('trophy-container').innerHTML = data.trophiesHtml;
+
+            loadTableData('calendar-table', data.calendar);
+            loadTableData('market-table', data.market);
+            loadTableData('scorers-table', data.scorers);
+            loadTableData('assists-table', data.assists);
+            loadTableData('roster-table', data.roster);
+            loadTableData('national-table', data.national);
+            loadTableData('europe-table', data.europeMatches);
+
+            calcolaStatisticheGlobali();
+        }
+
+        function salvaCarrieraCorrente() {
+            let nomeCarriera = document.getElementById('career-name-input').value.trim();
+            if (!nomeCarriera) {
+                mostraToast("Inserisci un nome per la carriera!");
+                return;
+            }
+
+            let datiCarriera = raccogliDatiCarriera();
             localStorage.setItem("fl26_carriera_" + nomeCarriera, JSON.stringify(datiCarriera));
             carrieraCorrente = nomeCarriera;
             aggiornaListaCarriere();
             mostraToast("Carriera '" + nomeCarriera + "' salvata con successo!");
+        }
+
+        function esportaCarrieraJSON() {
+            let nomeCarriera = document.getElementById('career-name-input').value.trim() || carrieraCorrente || "carriera_fl26";
+            let datiCarriera = raccogliDatiCarriera();
+            let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(datiCarriera, null, 2));
+            
+            let downloadAnchor = document.createElement('a');
+            downloadAnchor.setAttribute("href", dataStr);
+            downloadAnchor.setAttribute("download", `${nomeCarriera}.json`);
+            document.body.appendChild(downloadAnchor);
+            downloadAnchor.click();
+            downloadAnchor.remove();
+            mostraToast("Backup JSON esportato con successo!");
+        }
+
+        function importaCarrieraJSON(event) {
+            let file = event.target.files[0];
+            if (!file) return;
+
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    let data = JSON.parse(e.target.result);
+                    let nomeCarriera = file.name.replace(".json", "");
+                    
+                    localStorage.setItem("fl26_carriera_" + nomeCarriera, JSON.stringify(data));
+                    aggiornaListaCarriere();
+                    applicaDatiCarriera(data, nomeCarriera);
+                    mostraToast("Carriera importata con successo!");
+                } catch (err) {
+                    mostraToast("Errore durante l'importazione del file!");
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = ""; // Reset input file
         }
 
         function getTableData(tableId) {
@@ -874,7 +1021,7 @@
 
         function aggiornaListaCarriere() {
             let select = document.getElementById('saved-careers-select');
-            select.innerHTML = '<option value="">Seleziona una carriera salvata...</option>';
+            select.innerHTML = '<option value="">Seleziona carriera salvata...</option>';
             
             for (let i = 0; i < localStorage.length; i++) {
                 let key = localStorage.key(i);
@@ -898,33 +1045,7 @@
             if (!savedData) return;
 
             let data = JSON.parse(savedData);
-            carrieraCorrente = nome;
-            document.getElementById('career-name-input').value = nome;
-
-            document.getElementById('display-team').innerText = data.team;
-            document.getElementById('table-first').innerText = data.team;
-            document.getElementById('display-coach').innerText = data.coach;
-            document.getElementById('display-league').innerText = data.league;
-            document.getElementById('display-budget').innerText = data.budget;
-            document.getElementById('display-wage').innerText = data.wage;
-            document.getElementById('display-trophies').innerText = data.trophies;
-            document.getElementById('table-pts').innerText = data.pts;
-            if(data.nationalText) document.getElementById('display-national').innerText = data.nationalText;
-            if(data.europeComp) {
-                document.getElementById('display-europe-comp').innerText = data.europeComp;
-                document.getElementById('input-europe-comp').value = data.europeComp;
-            }
-            document.getElementById('logo-box').innerHTML = data.logoHtml;
-            if(data.trophiesHtml) document.getElementById('trophy-container').innerHTML = data.trophiesHtml;
-
-            loadTableData('calendar-table', data.calendar);
-            loadTableData('market-table', data.market);
-            loadTableData('scorers-table', data.scorers);
-            loadTableData('assists-table', data.assists);
-            loadTableData('roster-table', data.roster);
-            loadTableData('national-table', data.national);
-            loadTableData('europe-table', data.europeMatches);
-
+            applicaDatiCarriera(data, nome);
             mostraToast("Carriera '" + nome + "' caricata!");
         }
 
