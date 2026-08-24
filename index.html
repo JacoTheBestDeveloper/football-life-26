@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Football Life 26 - Career Hub</title>
+    <link rel="icon" type="image/png" href="https://a.espncdn.com/i/teamlogos/soccer/505/110.png">
+    
     <style>
         body {
             background: linear-gradient(135deg, #091a10 0%, #0d2818 50%, #051009 100%);
@@ -290,6 +292,14 @@
                         <strong id="display-league">Serie A</strong>
                     </div>
                     <div class="stat-row">
+                        <span>Budget Mercato:</span>
+                        <strong id="display-budget">€ 50M</strong>
+                    </div>
+                    <div class="stat-row">
+                        <span>Budget Ingaggi / Anno:</span>
+                        <strong id="display-wage">€ 2.5M</strong>
+                    </div>
+                    <div class="stat-row">
                         <span>Trofei vinti:</span>
                         <strong id="display-trophies">0</strong>
                     </div>
@@ -299,9 +309,11 @@
             <!-- PANNELLO DI MODIFICA -->
             <div class="controls">
                 <h3>Gestione Dati</h3>
-                <input type="text" id="input-team" placeholder="Nome Squadra (es. Inter, Milan, Juve)">
+                <input type="text" id="input-team" placeholder="Nome Squadra">
                 <input type="text" id="input-coach" placeholder="Nome Allenatore">
                 <input type="text" id="input-league" placeholder="Competizione / Campionato">
+                <input type="text" id="input-budget" placeholder="Budget Mercato (es. € 75M)">
+                <input type="text" id="input-wage" placeholder="Budget Ingaggi (es. € 3M)">
                 <input type="number" id="input-trophies" placeholder="Trofei vinti">
                 <input type="number" id="input-pts" placeholder="Punti in classifica">
                 <button onclick="aggiornaDati()">Aggiorna Scheda</button>
@@ -329,10 +341,10 @@
             </div>
         </div>
 
-        <!-- CALENDARIO PARTITE CUSTOMIZZABILE -->
+        <!-- CALENDARIO PARTITE -->
         <div class="full-width-section">
             <div class="section-header">
-                <h3>📅 Calendario Partite (Clicca sul testo per modificarlo)</h3>
+                <h3>📅 Calendario Partite</h3>
                 <button class="btn-small" onclick="aggiungiRigaCalendario()">+ Aggiungi Giornata</button>
             </div>
             <table id="calendar-table">
@@ -345,32 +357,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td contenteditable="true">1ª Giornata</td>
-                        <td contenteditable="true">Atalanta</td>
-                        <td contenteditable="true">Casa 🏠</td>
-                        <td contenteditable="true">Da Giocare</td>
-                    </tr>
-                    <tr>
-                        <td contenteditable="true">2ª Giornata</td>
-                        <td contenteditable="true">Milan</td>
-                        <td contenteditable="true">Trasferta ✈️</td>
-                        <td contenteditable="true">Da Giocare</td>
-                    </tr>
-                    <tr>
-                        <td contenteditable="true">3ª Giornata</td>
-                        <td contenteditable="true">Juventus</td>
-                        <td contenteditable="true">Casa 🏠</td>
-                        <td contenteditable="true">Da Giocare</td>
-                    </tr>
+                    <!-- Vuoto pronto -->
                 </tbody>
             </table>
         </div>
 
-        <!-- CALCIOMERCATO CUSTOMIZZABILE -->
+        <!-- CALCIOMERCATO & TRATTATIVE -->
         <div class="full-width-section">
             <div class="section-header">
-                <h3>🔄 Calciomercato & Trattative (Customizzabile)</h3>
+                <h3>🔄 Calciomercato & Trattative</h3>
                 <button class="btn-small" onclick="aggiungiRigaMercato()">+ Aggiungi Trattativa</button>
             </div>
             <table id="market-table">
@@ -383,67 +378,52 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td contenteditable="true">Kylian Mbappé</td>
-                        <td contenteditable="true">ATT</td>
-                        <td contenteditable="true">Real Madrid (Incedibile)</td>
-                        <td contenteditable="true">€ 180M</td>
-                    </tr>
-                    <tr>
-                        <td contenteditable="true">Cole Palmer</td>
-                        <td contenteditable="true">TRQ</td>
-                        <td contenteditable="true">Chelsea (In trattativa)</td>
-                        <td contenteditable="true">€ 75M</td>
-                    </tr>
-                    <tr>
-                        <td contenteditable="true">Alessandro Bastoni</td>
-                        <td contenteditable="true">DC</td>
-                        <td contenteditable="true">Inter (Titolare)</td>
-                        <td contenteditable="true">€ 70M</td>
-                    </tr>
+                    <!-- Vuoto pronto -->
                 </tbody>
             </table>
         </div>
 
-        <!-- ROSE UFFICIALI / ALTRE SQUADRE -->
+        <!-- CLASSIFICA MARCATORI (LA TUA SQUADRA) -->
         <div class="full-width-section">
             <div class="section-header">
-                <h3>🛡️ Rose Ufficiali Altre Squadre</h3>
-                <button class="btn-small" onclick="aggiungiRosaSquadra()">+ Aggiungi Squadra</button>
+                <h3>⚽ I Miei Marcatori</h3>
+                <button class="btn-small" onclick="aggiungiMarcatore()">+ Aggiungi Giocatore</button>
             </div>
-            <table id="teams-roster-table">
+            <table id="scorers-table">
                 <thead>
                     <tr>
-                        <th>Squadra</th>
-                        <th>Giocatore Chiave 1</th>
-                        <th>Giocatore Chiave 2</th>
-                        <th>Giocatore Chiave 3</th>
+                        <th>Giocatore</th>
+                        <th>Ruolo</th>
+                        <th>Gol Segnati</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td contenteditable="true">Real Madrid</td>
-                        <td contenteditable="true">K. Mbappé (OVR 91)</td>
-                        <td contenteditable="true">J. Bellingham (OVR 90)</td>
-                        <td contenteditable="true">Vinicius Jr (OVR 90)</td>
-                    </tr>
-                    <tr>
-                        <td contenteditable="true">Manchester City</td>
-                        <td contenteditable="true">E. Haaland (OVR 91)</td>
-                        <td contenteditable="true">K. De Bruyne (OVR 90)</td>
-                        <td contenteditable="true">Rodri (OVR 91)</td>
-                    </tr>
-                    <tr>
-                        <td contenteditable="true">Inter</td>
-                        <td contenteditable="true">L. Martínez (OVR 89)</td>
-                        <td contenteditable="true">H. Çalhanoğlu (OVR 86)</td>
-                        <td contenteditable="true">N. Barella (OVR 87)</td>
-                    </tr>
+                    <!-- Vuoto pronto -->
                 </tbody>
             </table>
         </div>
 
-        <!-- SEZIONE ROSA / FORMAZIONE DELLA TUA SQUADRA -->
+        <!-- CLASSIFICA ASSIST (LA TUA SQUADRA) -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <h3>🎯 I Miei Assist-man</h3>
+                <button class="btn-small" onclick="aggiungiAssistman()">+ Aggiungi Giocatore</button>
+            </div>
+            <table id="assists-table">
+                <thead>
+                    <tr>
+                        <th>Giocatore</th>
+                        <th>Ruolo</th>
+                        <th>Assist Fatti</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Vuoto pronto -->
+                </tbody>
+            </table>
+        </div>
+
+        <!-- LA TUA ROSA & FORMAZIONE -->
         <div class="full-width-section">
             <div class="section-header">
                 <h3>📋 La Tua Rosa & Formazione Titolare</h3>
@@ -458,33 +438,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td contenteditable="true">POR</td>
-                        <td contenteditable="true">Portiere Titolare</td>
-                        <td contenteditable="true">85</td>
-                    </tr>
-                    <tr>
-                        <td contenteditable="true">DC</td>
-                        <td contenteditable="true">Difensore Centrale</td>
-                        <td contenteditable="true">86</td>
-                    </tr>
-                    <tr>
-                        <td contenteditable="true">CC</td>
-                        <td contenteditable="true">Centrocampista Regista</td>
-                        <td contenteditable="true">88</td>
-                    </tr>
-                    <tr>
-                        <td contenteditable="true">ATT</td>
-                        <td contenteditable="true">Bomber / Punta Centrale</td>
-                        <td contenteditable="true">90</td>
-                    </tr>
+                    <!-- Vuoto pronto -->
                 </tbody>
             </table>
         </div>
     </div>
 
     <script>
-        // Loghi ufficiali testati tramite CDN affidabili
         const loghiSquadre = {
             "inter": "https://a.espncdn.com/i/teamlogos/soccer/505/110.png",
             "milan": "https://a.espncdn.com/i/teamlogos/soccer/505/103.png",
@@ -495,8 +455,7 @@
             "lazio": "https://a.espncdn.com/i/teamlogos/soccer/505/112.png",
             "atalanta": "https://a.espncdn.com/i/teamlogos/soccer/505/113.png",
             "real madrid": "https://a.espncdn.com/i/teamlogos/soccer/505/86.png",
-            "barcelona": "https://a.espncdn.com/i/teamlogos/soccer/505/83.png",
-            "milan": "https://a.espncdn.com/i/teamlogos/soccer/505/103.png"
+            "barcelona": "https://a.espncdn.com/i/teamlogos/soccer/505/83.png"
         };
 
         function iniziaCarriera() {
@@ -508,6 +467,8 @@
             let squadraInput = document.getElementById('input-team').value.trim();
             let allenatore = document.getElementById('input-coach').value;
             let competizione = document.getElementById('input-league').value;
+            let budget = document.getElementById('input-budget').value;
+            let wage = document.getElementById('input-wage').value;
             let trofei = document.getElementById('input-trophies').value;
             let punti = document.getElementById('input-pts').value;
 
@@ -526,33 +487,40 @@
             }
             if (allenatore !== "") document.getElementById('display-coach').innerText = allenatore;
             if (competizione !== "") document.getElementById('display-league').innerText = competizione;
+            if (budget !== "") document.getElementById('display-budget').innerText = budget;
+            if (wage !== "") document.getElementById('display-wage').innerText = wage;
             if (trofei !== "") document.getElementById('display-trophies').innerText = trofei;
             if (punti !== "") document.getElementById('table-pts').innerText = punti;
         }
 
-        // Funzioni per aggiungere righe personalizzate alle tabelle
         function aggiungiRigaCalendario() {
             let table = document.getElementById('calendar-table').getElementsByTagName('tbody')[0];
             let newRow = table.insertRow();
-            newRow.innerHTML = `<td contenteditable="true">Nuova Giornata</td><td contenteditable="true">Avversario</td><td contenteditable="true">Casa 🏠</td><td contenteditable="true">Da Giocare</td>`;
+            newRow.innerHTML = `<td contenteditable="true">1ª Giornata</td><td contenteditable="true">Avversario</td><td contenteditable="true">Casa 🏠</td><td contenteditable="true">Da Giocare</td>`;
         }
 
         function aggiungiRigaMercato() {
             let table = document.getElementById('market-table').getElementsByTagName('tbody')[0];
             let newRow = table.insertRow();
-            newRow.innerHTML = `<td contenteditable="true">Nome Giocatore</td><td contenteditable="true">Ruolo</td><td contenteditable="true">Club / Trattativa</td><td contenteditable="true">€ 0M</td>`;
+            newRow.innerHTML = `<td contenteditable="true">Giocatore</td><td contenteditable="true">Ruolo</td><td contenteditable="true">Club</td><td contenteditable="true">€ 0M</td>`;
         }
 
-        function aggiungiRosaSquadra() {
-            let table = document.getElementById('teams-roster-table').getElementsByTagName('tbody')[0];
+        function aggiungiMarcatore() {
+            let table = document.getElementById('scorers-table').getElementsByTagName('tbody')[0];
             let newRow = table.insertRow();
-            newRow.innerHTML = `<td contenteditable="true">Nome Squadra</td><td contenteditable="true">Giocatore 1</td><td contenteditable="true">Giocatore 2</td><td contenteditable="true">Giocatore 3</td>`;
+            newRow.innerHTML = `<td contenteditable="true">Nome Giocatore</td><td contenteditable="true">ATT</td><td contenteditable="true">0</td>`;
+        }
+
+        function aggiungiAssistman() {
+            let table = document.getElementById('assists-table').getElementsByTagName('tbody')[0];
+            let newRow = table.insertRow();
+            newRow.innerHTML = `<td contenteditable="true">Nome Giocatore</td><td contenteditable="true">CC</td><td contenteditable="true">0</td>`;
         }
 
         function aggiungiTitolare() {
             let table = document.getElementById('roster-table').getElementsByTagName('tbody')[0];
             let newRow = table.insertRow();
-            newRow.innerHTML = `<td contenteditable="true">RUO</td><td contenteditable="true">Nome Giocatore</td><td contenteditable="true">80</td>`;
+            newRow.innerHTML = `<td contenteditable="true">POR</td><td contenteditable="true">Nome Giocatore</td><td contenteditable="true">80</td>`;
         }
     </script>
 
