@@ -4,13 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Football Life 26 - Career Hub</title>
-    <!-- Favicon personalizzata con il tuo logo FL -->
+    <!-- Favicon personalizzata FL -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 100' width='60' height='50'%3E%3Cpath d='M15,35 L25,35 L23,55 C23,60 17,62 15,62 C13,62 7,60 7,55 L5,35 Z' fill='%23e3b341'/%3E%3Cpath d='M11,62 L19,62 L18,72 L12,72 Z' fill='%23e3b341'/%3E%3Crect x='8' y='72' width='14' height='4' fill='%238b949e'/%3E%3Cpath d='M95,35 L105,35 L103,55 C103,60 97,62 95,62 C93,62 87,60 87,55 L85,35 Z' fill='%23e3b341'/%3E%3Cpath d='M91,62 L99,62 L98,72 L92,72 Z' fill='%23e3b341'/%3E%3Crect x='88' y='72' width='14' height='4' fill='%238b949e'/%3E%3Cpolygon points='60,10 90,25 90,65 60,90 30,65 30,25' fill='%23161b22' stroke='%2358a6ff' stroke-width='4'/%3E%3Ccircle cx='60' cy='50' r='22' fill='%23ffffff' stroke='%23091a10' stroke-width='2'/%3E%3Ctext x='60' y='57' font-size='16' font-weight='bold' fill='%23091a10' text-anchor='middle' font-family='Arial'%3EFL%3C/text%3E%3C/svg%3E">
     
     <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #091a10 0%, #0d2818 50%, #051009 100%);
+            --card-bg: rgba(22, 27, 34, 0.92);
+            --border-color: #30363d;
+            --text-main: #ffffff;
+            --text-muted: #8b949e;
+            --accent-color: #58a6ff;
+            --btn-green: #238636;
+            --btn-green-hover: #2ea043;
+            --stats-bg: rgba(33, 38, 45, 0.8);
+            --input-bg: #0d1117;
+        }
+
+        [data-theme="midnight"] {
+            --bg-gradient: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #010409 100%);
+            --card-bg: rgba(22, 27, 34, 0.95);
+            --border-color: #30363d;
+            --accent-color: #1f6feb;
+            --btn-green: #1f6feb;
+            --btn-green-hover: #388bfd;
+        }
+
+        [data-theme="gold"] {
+            --bg-gradient: linear-gradient(135deg, #1a1609 0%, #2b230d 50%, #0f0d05 100%);
+            --card-bg: rgba(26, 24, 16, 0.95);
+            --border-color: #443c1d;
+            --accent-color: #e3b341;
+            --btn-green: #9e8236;
+            --btn-green-hover: #bda245;
+        }
+
         body {
-            background: linear-gradient(135deg, #091a10 0%, #0d2818 50%, #051009 100%);
-            color: #ffffff;
+            background: var(--bg-gradient);
+            color: var(--text-main);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             display: flex;
             flex-direction: column;
@@ -20,6 +51,7 @@
             min-height: 100vh;
             box-sizing: border-box;
             position: relative;
+            transition: background 0.3s ease;
         }
 
         body::before {
@@ -27,26 +59,72 @@
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
             background: repeating-linear-gradient(
-                0deg,
-                transparent,
-                transparent 60px,
-                rgba(255, 255, 255, 0.03) 60px,
-                rgba(255, 255, 255, 0.03) 120px
+                0deg, transparent, transparent 60px,
+                rgba(255, 255, 255, 0.02) 60px, rgba(255, 255, 255, 0.02) 120px
             );
             pointer-events: none;
+        }
+
+        /* Selettore Tema in alto a destra */
+        .theme-selector {
+            position: fixed;
+            top: 15px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            backdrop-filter: blur(6px);
+        }
+        .theme-selector select {
+            width: auto;
+            margin-bottom: 0;
+            padding: 4px 8px;
+            font-size: 12px;
         }
 
         .signature {
             position: fixed;
             bottom: 15px;
             right: 20px;
-            color: #8b949e;
+            color: var(--text-muted);
             font-size: 13px;
             letter-spacing: 1px;
             font-weight: 600;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
             z-index: 1000;
         }
+
+        /* Sistema Notifiche Toast */
+        #toast-container {
+            position: fixed;
+            bottom: 45px;
+            left: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .toast {
+            background-color: var(--card-bg);
+            border: 1px solid var(--accent-color);
+            color: var(--text-main);
+            padding: 12px 20px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
+            backdrop-filter: blur(6px);
+        }
+        @keyframes slideIn { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes fadeOut { to { opacity: 0; transform: translateY(10px); } }
 
         /* Schermata di Benvenuto */
         #welcome-screen {
@@ -61,30 +139,29 @@
         }
         #welcome-screen h1 {
             font-size: 42px;
-            color: #58a6ff;
+            color: var(--accent-color);
             margin-bottom: 10px;
             text-shadow: 0 4px 12px rgba(0,0,0,0.8);
         }
         #welcome-screen p {
-            color: #c9d1d9;
+            color: var(--text-muted);
             font-size: 16px;
             margin-bottom: 30px;
-            text-shadow: 0 2px 6px rgba(0,0,0,0.8);
         }
         .btn-start {
             padding: 15px 40px;
-            background-color: #238636;
+            background-color: var(--btn-green);
             color: white;
             border: none;
             border-radius: 8px;
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 6px 20px rgba(35, 134, 54, 0.6);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
             transition: transform 0.2s, background-color 0.2s;
         }
         .btn-start:hover {
-            background-color: #2ea043;
+            background-color: var(--btn-green-hover);
             transform: scale(1.05);
         }
 
@@ -104,21 +181,20 @@
         .main-title h2 {
             margin: 0;
             font-size: 28px;
-            color: #ffffff;
+            color: var(--text-main);
             letter-spacing: 1px;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
         }
         .main-title p {
             margin: 5px 0 0 0;
-            color: #8b949e;
+            color: var(--text-muted);
             font-size: 14px;
         }
 
         /* Box Gestione Carriere */
         .career-manager-box {
-            background-color: rgba(22, 27, 34, 0.92);
+            background-color: var(--card-bg);
             backdrop-filter: blur(6px);
-            border: 2px solid #30363d;
+            border: 2px solid var(--border-color);
             border-radius: 12px;
             padding: 15px 20px;
             display: flex;
@@ -131,7 +207,7 @@
         }
         .career-manager-box h4 {
             margin: 0;
-            color: #58a6ff;
+            color: var(--accent-color);
             font-size: 15px;
         }
         .career-controls {
@@ -148,13 +224,13 @@
             width: auto;
             padding: 8px 15px;
             font-size: 13px;
+            background-color: var(--btn-green);
         }
+        .btn-career:hover { background-color: var(--btn-green-hover); }
         .btn-danger {
-            background-color: #da3633;
+            background-color: #da3633 !important;
         }
-        .btn-danger:hover {
-            background-color: #f85149;
-        }
+        .btn-danger:hover { background-color: #f85149 !important; }
 
         .container {
             display: flex;
@@ -163,9 +239,9 @@
             justify-content: center;
         }
         .card, .controls, .table-box {
-            background-color: rgba(22, 27, 34, 0.92);
+            background-color: var(--card-bg);
             backdrop-filter: blur(6px);
-            border: 2px solid #30363d;
+            border: 2px solid var(--border-color);
             border-radius: 12px;
             padding: 20px;
             width: 330px;
@@ -190,18 +266,18 @@
 
         .card h3, .controls h3, .table-box h3 {
             margin-top: 0;
-            color: #58a6ff;
+            color: var(--accent-color);
             font-size: 16px;
             text-align: center;
         }
         .season {
-            color: #8b949e;
+            color: var(--text-muted);
             font-size: 13px;
             text-align: center;
             margin-bottom: 15px;
         }
         .stats {
-            background-color: rgba(33, 38, 45, 0.8);
+            background-color: var(--stats-bg);
             padding: 12px;
             border-radius: 8px;
         }
@@ -211,32 +287,30 @@
             margin-bottom: 6px;
             font-size: 14px;
         }
-        .stat-row:last-child {
-            margin-bottom: 0;
-        }
+        .stat-row:last-child { margin-bottom: 0; }
+        
         input, select {
             width: 100%;
             padding: 8px;
             margin-bottom: 10px;
-            background-color: #0d1117;
-            border: 1px solid #30363d;
+            background-color: var(--input-bg);
+            border: 1px solid var(--border-color);
             border-radius: 6px;
-            color: #ffffff;
+            color: var(--text-main);
             box-sizing: border-box;
         }
         button {
             width: 100%;
             padding: 10px;
-            background-color: #238636;
+            background-color: var(--btn-green);
             color: white;
             border: none;
             border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #2ea043;
-        }
+        button:hover { background-color: var(--btn-green-hover); }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -245,11 +319,9 @@
         th, td {
             padding: 8px;
             text-align: left;
-            border-bottom: 1px solid #30363d;
+            border-bottom: 1px solid var(--border-color);
         }
-        th {
-            color: #8b949e;
-        }
+        th { color: var(--text-muted); }
 
         [contenteditable="true"] {
             outline: 1px dashed rgba(88, 166, 255, 0.4);
@@ -257,14 +329,14 @@
             border-radius: 4px;
         }
         [contenteditable="true"]:focus {
-            outline: 2px solid #58a6ff;
-            background-color: rgba(13, 17, 23, 0.8);
+            outline: 2px solid var(--accent-color);
+            background-color: var(--input-bg);
         }
 
         .full-width-section {
-            background-color: rgba(22, 27, 34, 0.92);
+            background-color: var(--card-bg);
             backdrop-filter: blur(6px);
-            border: 2px solid #30363d;
+            border: 2px solid var(--border-color);
             border-radius: 12px;
             padding: 20px;
             width: 100%;
@@ -281,23 +353,52 @@
         }
         .section-header h3 {
             margin: 0;
-            color: #58a6ff;
+            color: var(--accent-color);
             font-size: 16px;
         }
         .btn-small {
             width: auto;
             padding: 5px 12px;
             font-size: 12px;
-            background-color: #30363d;
+            background-color: var(--border-color);
         }
-        .btn-small:hover {
-            background-color: #484f58;
+        .btn-small:hover { background-color: #484f58; }
+
+        /* Stile Bacheca Trofei */
+        .trophy-grid {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 10px;
         }
+        .trophy-card {
+            background: var(--stats-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 200px;
+        }
+        .trophy-icon { font-size: 28px; }
+        .trophy-info h5 { margin: 0; font-size: 14px; color: var(--text-main); }
+        .trophy-info p { margin: 2px 0 0 0; font-size: 12px; color: var(--text-muted); }
     </style>
 </head>
-<body>
+<body data-theme="classic">
+
+    <div class="theme-selector">
+        <span style="font-size: 12px; color: var(--text-muted);">Tema:</span>
+        <select id="theme-changer" onchange="cambiaTema(this.value)">
+            <option value="classic">🟢 Classic Green</option>
+            <option value="midnight">🌙 Midnight Blue</option>
+            <option value="gold">🏆 Royal Gold</option>
+        </select>
+    </div>
 
     <div class="signature">By Jaco</div>
+    <div id="toast-container"></div>
 
     <!-- 1. SCHERMATA DI BENVENUTO -->
     <div id="welcome-screen">
@@ -330,19 +431,14 @@
             <!-- SCHEDA DELLA SQUADRA -->
             <div class="card">
                 <div class="team-logo-container" id="logo-box">
-                    <!-- LOGO PERSONALIZZATO FL CON COPPE E PALLONE -->
                     <svg viewBox="0 0 120 100" width="60" height="50">
-                        <!-- Coppa sinistra -->
                         <path d="M15,35 L25,35 L23,55 C23,60 17,62 15,62 C13,62 7,60 7,55 L5,35 Z" fill="#e3b341"/>
                         <path d="M11,62 L19,62 L18,72 L12,72 Z" fill="#e3b341"/>
                         <rect x="8" y="72" width="14" height="4" fill="#8b949e"/>
-                        <!-- Coppa destra -->
                         <path d="M95,35 L105,35 L103,55 C103,60 97,62 95,62 C93,62 87,60 87,55 L85,35 Z" fill="#e3b341"/>
                         <path d="M91,62 L99,62 L98,72 L92,72 Z" fill="#e3b341"/>
                         <rect x="88" y="72" width="14" height="4" fill="#8b949e"/>
-                        <!-- Scudo centrale -->
                         <polygon points="60,10 90,25 90,65 60,90 30,65 30,25" fill="#161b22" stroke="#58a6ff" stroke-width="4"/>
-                        <!-- Pallone al centro con iniziali FL -->
                         <circle cx="60" cy="50" r="22" fill="#ffffff" stroke="#091a10" stroke-width="2"/>
                         <text x="60" y="57" font-size="16" font-weight="bold" fill="#091a10" text-anchor="middle" font-family="Arial">FL</text>
                     </svg>
@@ -409,6 +505,23 @@
             </div>
         </div>
 
+        <!-- BACHECA TROFEI VISIVA -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <h3>🏆 Bacheca Trofei</h3>
+                <button class="btn-small" onclick="aggiungiTrofeoBacheca()">+ Aggiungi Trofeo</button>
+            </div>
+            <div class="trophy-grid" id="trophy-container">
+                <div class="trophy-card">
+                    <div class="trophy-icon">🥇</div>
+                    <div class="trophy-info">
+                        <h5>Esempio Trofeo</h5>
+                        <p>Stagione 2026/2027</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- SEZIONE NAZIONALI -->
         <div class="full-width-section">
             <div class="section-header">
@@ -418,9 +531,9 @@
             <div style="margin-bottom: 12px; display: flex; gap: 15px; flex-wrap: wrap;">
                 <input type="text" id="input-national-team" placeholder="Nazionale Guidata (es. Italia 🇮🇹)" style="max-width: 280px; margin-bottom: 0;">
                 <input type="text" id="input-national-comp" placeholder="Torneo Nazionale (es. Mondiali 2026)" style="max-width: 280px; margin-bottom: 0;">
-                <button class="btn-small" onclick="aggiornaNazionale()" style="background-color: #238636;">Imposta Nazionale</button>
+                <button class="btn-small" onclick="aggiornaNazionale()" style="background-color: var(--btn-green);">Imposta Nazionale</button>
             </div>
-            <p style="margin: 5px 0 12px 0; color: #8b949e; font-size: 13px;">Stato Nazionale Attuale: <strong id="display-national" style="color: #58a6ff;">Nessuna Nazionale Selezionata</strong></p>
+            <p style="margin: 5px 0 12px 0; color: var(--text-muted); font-size: 13px;">Stato Nazionale Attuale: <strong id="display-national" style="color: var(--accent-color);">Nessuna Nazionale Selezionata</strong></p>
             
             <table id="national-table">
                 <thead>
@@ -447,9 +560,9 @@
                     <option value="UEFA Europa League">UEFA Europa League 🟠</option>
                     <option value="UEFA Conference League">UEFA Conference League 🟢</option>
                 </select>
-                <button class="btn-small" onclick="aggiornaCompetizioneEuropa()" style="background-color: #238636;">Seleziona Torneo</button>
+                <button class="btn-small" onclick="aggiornaCompetizioneEuropa()" style="background-color: var(--btn-green);">Seleziona Torneo</button>
             </div>
-            <p style="margin: 5px 0 12px 0; color: #8b949e; font-size: 13px;">Torneo Attivo: <strong id="display-europe-comp" style="color: #58a6ff;">UEFA Champions League</strong></p>
+            <p style="margin: 5px 0 12px 0; color: var(--text-muted); font-size: 13px;">Torneo Attivo: <strong id="display-europe-comp" style="color: var(--accent-color);">UEFA Champions League</strong></p>
             
             <table id="europe-table">
                 <thead>
@@ -578,29 +691,34 @@
             "barcelona": "https://a.espncdn.com/i/teamlogos/soccer/505/83.png"
         };
 
-        const logoPersonalizzato = `
-            <svg viewBox="0 0 120 100" width="60" height="50">
-                <path d="M15,35 L25,35 L23,55 C23,60 17,62 15,62 C13,62 7,60 7,55 L5,35 Z" fill="#e3b341"/>
-                <path d="M11,62 L19,62 L18,72 L12,72 Z" fill="#e3b341"/>
-                <rect x="8" y="72" width="14" height="4" fill="#8b949e"/>
-                <path d="M95,35 L105,35 L103,55 C103,60 97,62 95,62 C93,62 87,60 87,55 L85,35 Z" fill="#e3b341"/>
-                <path d="M91,62 L99,62 L98,72 L92,72 Z" fill="#e3b341"/>
-                <rect x="88" y="72" width="14" height="4" fill="#8b949e"/>
-                <polygon points="60,10 90,25 90,65 60,90 30,65 30,25" fill="#161b22" stroke="#58a6ff" stroke-width="4"/>
-                <circle cx="60" cy="50" r="22" fill="#ffffff" stroke="#091a10" stroke-width="2"/>
-                <text x="60" y="57" font-size="16" font-weight="bold" fill="#091a10" text-anchor="middle" font-family="Arial">FL</text>
-            </svg>
-        `;
-
+        const logoPersonalizzato = document.querySelector('.team-logo-container').innerHTML;
         let carrieraCorrente = "";
 
         window.onload = function() {
             aggiornaListaCarriere();
         };
 
+        function mostraToast(messaggio) {
+            let container = document.getElementById('toast-container');
+            let toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.innerHTML = `<span>🔔</span> ${messaggio}`;
+            container.appendChild(toast);
+            setTimeout(() => { toast.remove(); }, 3000);
+        }
+
+        function cambiaTema(tema) {
+            document.body.setAttribute('data-theme', tema);
+            localStorage.setItem('fl26_tema', tema);
+            mostraToast("Tema cambiato con successo!");
+        }
+
         function iniziaCarriera() {
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('main-app').style.display = 'block';
+            let temaSalvato = localStorage.getItem('fl26_tema') || 'classic';
+            document.body.setAttribute('data-theme', temaSalvato);
+            document.getElementById('theme-changer').value = temaSalvato;
         }
 
         function aggiornaDati() {
@@ -631,6 +749,23 @@
             if (wage !== "") document.getElementById('display-wage').innerText = wage;
             if (trofei !== "") document.getElementById('display-trophies').innerText = trofei;
             if (punti !== "") document.getElementById('table-pts').innerText = punti;
+
+            mostraToast("Scheda aggiornata correttamente!");
+        }
+
+        function aggiungiTrofeoBacheca(nome = "Nome Trofeo / Coppa", stagione = "Stagione 2026/2027", icona = "🏆") {
+            let container = document.getElementById('trophy-container');
+            let card = document.createElement('div');
+            card.className = 'trophy-card';
+            card.innerHTML = `
+                <div class="trophy-icon" contenteditable="true">${icona}</div>
+                <div class="trophy-info">
+                    <h5 contenteditable="true">${nome}</h5>
+                    <p contenteditable="true">${stagione}</p>
+                </div>
+            `;
+            container.appendChild(card);
+            mostraToast("Trofeo aggiunto alla bacheca!");
         }
 
         function aggiornaNazionale() {
@@ -638,6 +773,7 @@
             let natComp = document.getElementById('input-national-comp').value.trim();
             if (natTeam !== "" || natComp !== "") {
                 document.getElementById('display-national').innerText = `${natTeam} (${natComp})`;
+                mostraToast("Nazionale aggiornata!");
             }
         }
 
@@ -688,11 +824,11 @@
             newRow.innerHTML = `<td contenteditable="true">${ruolo}</td><td contenteditable="true">${nome}</td><td contenteditable="true">${ovr}</td>`;
         }
 
-        // --- SISTEMA DI SALVATAGGIO MULTI-CARRIERA ---
+        // --- SALVATAGGIO MULTI-CARRIERA ---
         function salvaCarrieraCorrente() {
             let nomeCarriera = document.getElementById('career-name-input').value.trim();
             if (!nomeCarriera) {
-                alert("Inserisci un nome per la carriera prima di salvare!");
+                mostraToast("Inserisci un nome per la carriera!");
                 return;
             }
 
@@ -707,6 +843,7 @@
                 nationalText: document.getElementById('display-national').innerText,
                 europeComp: document.getElementById('display-europe-comp').innerText,
                 logoHtml: document.getElementById('logo-box').innerHTML,
+                trophiesHtml: document.getElementById('trophy-container').innerHTML,
                 
                 calendar: getTableData('calendar-table'),
                 market: getTableData('market-table'),
@@ -720,7 +857,7 @@
             localStorage.setItem("fl26_carriera_" + nomeCarriera, JSON.stringify(datiCarriera));
             carrieraCorrente = nomeCarriera;
             aggiornaListaCarriere();
-            alert("Carriera '" + nomeCarriera + "' salvata con successo!");
+            mostraToast("Carriera '" + nomeCarriera + "' salvata con successo!");
         }
 
         function getTableData(tableId) {
@@ -778,6 +915,7 @@
                 document.getElementById('input-europe-comp').value = data.europeComp;
             }
             document.getElementById('logo-box').innerHTML = data.logoHtml;
+            if(data.trophiesHtml) document.getElementById('trophy-container').innerHTML = data.trophiesHtml;
 
             loadTableData('calendar-table', data.calendar);
             loadTableData('market-table', data.market);
@@ -786,6 +924,8 @@
             loadTableData('roster-table', data.roster);
             loadTableData('national-table', data.national);
             loadTableData('europe-table', data.europeMatches);
+
+            mostraToast("Carriera '" + nome + "' caricata!");
         }
 
         function loadTableData(tableId, data) {
@@ -807,16 +947,16 @@
             let select = document.getElementById('saved-careers-select');
             let nome = select.value || carrieraCorrente;
             if (!nome) {
-                alert("Seleziona o carica una carriera da eliminare.");
+                mostraToast("Seleziona una carriera da eliminare.");
                 return;
             }
 
-            if (confirm("Sei sicuro di voler eliminare definitivamente la carriera '" + nome + "'?")) {
+            if (confirm("Vuoi eliminare la carriera '" + nome + "'?")) {
                 localStorage.removeItem("fl26_carriera_" + nome);
                 carrieraCorrente = "";
                 document.getElementById('career-name-input').value = "";
                 aggiornaListaCarriere();
-                alert("Carriera eliminata.");
+                mostraToast("Carriera eliminata.");
             }
         }
     </script>
