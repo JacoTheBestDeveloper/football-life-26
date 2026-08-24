@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Football Life 26 - Career Hub</title>
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 100' width='60' height='50'%3E%3Cpath d='M15,35 L25,35 L23,55 C23,60 17,62 15,62 C13,62 7,60 7,55 L5,35 Z' fill='%23e3b341'/%3E%3Cpath d='M11,62 L19,62 L18,72 L12,72 Z' fill='%23e3b341'/%3E%3Crect x='8' y='72' width='14' height='4' fill='%238b949e'/%3E%3Cpath d='M95,35 L105,35 L103,55 C103,60 97,62 95,62 C93,62 87,60 87,55 L85,35 Z' fill='%23e3b341'/%3E%3Cpath d='M91,62 L99,62 L98,72 L92,72 Z' fill='%23e3b341'/%3E%3Crect x='88' y='72' width='14' height='4' fill='%238b949e'/%3E%3Cpolygon points='60,10 90,25 90,65 60,90 30,65 30,25' fill='%23161b22' stroke='%2358a6ff' stroke-width='4'/%3E%3Ccircle cx='60' cy='50' r='22' fill='%23ffffff' stroke='%23091a10' stroke-width='2'/%3E%3Ctext x='60' y='57' font-size='16' font-weight='bold' fill='%23091a10' text-anchor='middle' font-family='Arial'%3EFL%3C/text%3E%3C/svg%3E">
     
     <style>
         :root {
@@ -78,17 +77,6 @@
             box-sizing: border-box;
             position: relative;
             transition: background 0.3s ease;
-        }
-
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: repeating-linear-gradient(
-                0deg, transparent, transparent 60px,
-                rgba(255, 255, 255, 0.02) 60px, rgba(255, 255, 255, 0.02) 120px
-            );
-            pointer-events: none;
         }
 
         .theme-selector {
@@ -273,15 +261,14 @@
         .team-logo-container {
             text-align: center;
             margin-bottom: 10px;
-            height: 55px;
+            height: 60px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .team-logo-container img, .team-logo-container svg {
-            max-height: 52px;
-            max-width: 52px;
-            object-fit: contain;
+        .team-logo-container svg {
+            max-height: 55px;
+            max-width: 55px;
             filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
         }
 
@@ -435,7 +422,7 @@
         /* Galleria Scudetti rapida */
         .badge-gallery {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             flex-wrap: wrap;
             margin-top: 10px;
             justify-content: center;
@@ -444,29 +431,29 @@
             background: var(--stats-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 8px 12px;
+            padding: 10px;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
-            width: 80px;
+            width: 85px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         .badge-item:hover {
             border-color: var(--accent-color);
             transform: translateY(-2px);
         }
-        .badge-item img {
-            width: 30px;
-            height: 30px;
-            object-fit: contain;
-            margin-bottom: 4px;
+        .badge-item svg {
+            width: 35px;
+            height: 35px;
+            margin-bottom: 6px;
         }
         .badge-item span {
-            font-size: 10px;
-            display: block;
+            font-size: 11px;
             color: var(--text-muted);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            font-weight: 600;
         }
     </style>
 </head>
@@ -521,16 +508,9 @@
             <!-- SCHEDA DELLA SQUADRA -->
             <div class="card">
                 <div class="team-logo-container" id="logo-box">
-                    <svg viewBox="0 0 120 100" width="60" height="50">
-                        <path d="M15,35 L25,35 L23,55 C23,60 17,62 15,62 C13,62 7,60 7,55 L5,35 Z" fill="#e3b341"/>
-                        <path d="M11,62 L19,62 L18,72 L12,72 Z" fill="#e3b341"/>
-                        <rect x="8" y="72" width="14" height="4" fill="#8b949e"/>
-                        <path d="M95,35 L105,35 L103,55 C103,60 97,62 95,62 C93,62 87,60 87,55 L85,35 Z" fill="#e3b341"/>
-                        <path d="M91,62 L99,62 L98,72 L92,72 Z" fill="#e3b341"/>
-                        <rect x="88" y="72" width="14" height="4" fill="#8b949e"/>
-                        <polygon points="60,10 90,25 90,65 60,90 30,65 30,25" fill="#161b22" stroke="#58a6ff" stroke-width="4"/>
-                        <circle cx="60" cy="50" r="22" fill="#ffffff" stroke="#091a10" stroke-width="2"/>
-                        <text x="60" y="57" font-size="16" font-weight="bold" fill="#091a10" text-anchor="middle" font-family="Arial">FL</text>
+                    <svg viewBox="0 0 100 100" width="55" height="55">
+                        <circle cx="50" cy="50" r="45" fill="#161b22" stroke="#e3b341" stroke-width="5"/>
+                        <text x="50" y="58" font-size="28" font-weight="bold" fill="#e3b341" text-anchor="middle" font-family="Arial">FL</text>
                     </svg>
                 </div>
                 <!-- Loghi Rapidi -->
@@ -615,39 +595,39 @@
             <p style="margin: 0 0 10px 0; color: var(--text-muted); font-size: 13px;">Clicca su un logo per impostarlo immediatamente sulla tua scheda:</p>
             <div class="badge-gallery">
                 <div class="badge-item" onclick="impostaLogoRapido('Inter')">
-                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/110.png" alt="Inter">
+                    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#000000" stroke="#00bfff" stroke-width="6"/><text x="50" y="58" font-size="34" font-weight="bold" fill="#00bfff" text-anchor="middle">FC</text></svg>
                     <span>Inter</span>
                 </div>
                 <div class="badge-item" onclick="impostaLogoRapido('Milan')">
-                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/103.png" alt="Milan">
+                    <svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="15" fill="#fb2e01" stroke="#000" stroke-width="6"/><text x="50" y="58" font-size="32" font-weight="bold" fill="#000" text-anchor="middle">ACM</text></svg>
                     <span>Milan</span>
                 </div>
                 <div class="badge-item" onclick="impostaLogoRapido('Juventus')">
-                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/111.png" alt="Juventus">
+                    <svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="#ffffff" stroke="#000" stroke-width="6"/><path d="M35 25 L45 25 L55 75 L45 75 Z" fill="#000"/><path d="M55 25 L65 25 L60 75 L50 75 Z" fill="#000"/></svg>
                     <span>Juventus</span>
                 </div>
                 <div class="badge-item" onclick="impostaLogoRapido('Napoli')">
-                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/607.png" alt="Napoli">
+                    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#1e90ff" stroke="#ffffff" stroke-width="6"/><text x="50" y="58" font-size="32" font-weight="bold" fill="#ffffff" text-anchor="middle">N</text></svg>
                     <span>Napoli</span>
                 </div>
                 <div class="badge-item" onclick="impostaLogoRapido('Roma')">
-                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/104.png" alt="Roma">
+                    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#800020" stroke="#ffd700" stroke-width="6"/><text x="50" y="58" font-size="32" font-weight="bold" fill="#ffd700" text-anchor="middle">ASR</text></svg>
                     <span>Roma</span>
                 </div>
                 <div class="badge-item" onclick="impostaLogoRapido('Lazio')">
-                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/112.png" alt="Lazio">
+                    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#87ceeb" stroke="#ffffff" stroke-width="6"/><text x="50" y="58" font-size="26" font-weight="bold" fill="#ffffff" text-anchor="middle">SSL</text></svg>
                     <span>Lazio</span>
                 </div>
                 <div class="badge-item" onclick="impostaLogoRapido('Atalanta')">
-                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/113.png" alt="Atalanta">
+                    <svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="#1e3f66" stroke="#000" stroke-width="6"/><text x="50" y="58" font-size="26" font-weight="bold" fill="#00ffff" text-anchor="middle">ATA</text></svg>
                     <span>Atalanta</span>
                 </div>
                 <div class="badge-item" onclick="impostaLogoRapido('Real Madrid')">
-                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/86.png" alt="Real Madrid">
+                    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#ffffff" stroke="#ffd700" stroke-width="6"/><text x="50" y="58" font-size="26" font-weight="bold" fill="#000080" text-anchor="middle">RM</text></svg>
                     <span>Real Madrid</span>
                 </div>
                 <div class="badge-item" onclick="impostaLogoRapido('Barcelona')">
-                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/83.png" alt="Barcelona">
+                    <svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="#a50044" stroke="#edbb00" stroke-width="6"/><text x="50" y="58" font-size="26" font-weight="bold" fill="#edbb00" text-anchor="middle">FCB</text></svg>
                     <span>Barcelona</span>
                 </div>
             </div>
@@ -860,20 +840,19 @@
     </div>
 
     <script>
-        const loghiSquadre = {
-            "inter": "https://a.espncdn.com/i/teamlogos/soccer/505/110.png",
-            "milan": "https://a.espncdn.com/i/teamlogos/soccer/505/103.png",
-            "juventus": "https://a.espncdn.com/i/teamlogos/soccer/505/111.png",
-            "juve": "https://a.espncdn.com/i/teamlogos/soccer/505/111.png",
-            "napoli": "https://a.espncdn.com/i/teamlogos/soccer/505/607.png",
-            "roma": "https://a.espncdn.com/i/teamlogos/soccer/505/104.png",
-            "lazio": "https://a.espncdn.com/i/teamlogos/soccer/505/112.png",
-            "atalanta": "https://a.espncdn.com/i/teamlogos/soccer/505/113.png",
-            "real madrid": "https://a.espncdn.com/i/teamlogos/soccer/505/86.png",
-            "barcelona": "https://a.espncdn.com/i/teamlogos/soccer/505/83.png"
+        const loghiSvg = {
+            "inter": `<svg viewBox="0 0 100 100" width="55" height="55"><circle cx="50" cy="50" r="46" fill="#000" stroke="#00bfff" stroke-width="6"/><text x="50" y="58" font-size="34" font-weight="bold" fill="#00bfff" text-anchor="middle">FC</text></svg>`,
+            "milan": `<svg viewBox="0 0 100 100" width="55" height="55"><rect x="10" y="10" width="80" height="80" rx="15" fill="#fb2e01" stroke="#000" stroke-width="6"/><text x="50" y="58" font-size="32" font-weight="bold" fill="#000" text-anchor="middle">ACM</text></svg>`,
+            "juventus": `<svg viewBox="0 0 100 100" width="55" height="55"><rect x="10" y="10" width="80" height="80" rx="10" fill="#fff" stroke="#000" stroke-width="6"/><path d="M35 25 L45 25 L55 75 L45 75 Z" fill="#000"/><path d="M55 25 L65 25 L60 75 L50 75 Z" fill="#000"/></svg>`,
+            "juve": `<svg viewBox="0 0 100 100" width="55" height="55"><rect x="10" y="10" width="80" height="80" rx="10" fill="#fff" stroke="#000" stroke-width="6"/><path d="M35 25 L45 25 L55 75 L45 75 Z" fill="#000"/><path d="M55 25 L65 25 L60 75 L50 75 Z" fill="#000"/></svg>`,
+            "napoli": `<svg viewBox="0 0 100 100" width="55" height="55"><circle cx="50" cy="50" r="46" fill="#1e90ff" stroke="#fff" stroke-width="6"/><text x="50" y="58" font-size="32" font-weight="bold" fill="#fff" text-anchor="middle">N</text></svg>`,
+            "roma": `<svg viewBox="0 0 100 100" width="55" height="55"><circle cx="50" cy="50" r="46" fill="#800020" stroke="#ffd700" stroke-width="6"/><text x="50" y="58" font-size="32" font-weight="bold" fill="#ffd700" text-anchor="middle">ASR</text></svg>`,
+            "lazio": `<svg viewBox="0 0 100 100" width="55" height="55"><circle cx="50" cy="50" r="46" fill="#87ceeb" stroke="#fff" stroke-width="6"/><text x="50" y="58" font-size="26" font-weight="bold" fill="#fff" text-anchor="middle">SSL</text></svg>`,
+            "atalanta": `<svg viewBox="0 0 100 100" width="55" height="55"><rect x="10" y="10" width="80" height="80" rx="10" fill="#1e3f66" stroke="#000" stroke-width="6"/><text x="50" y="58" font-size="26" font-weight="bold" fill="#00ffff" text-anchor="middle">ATA</text></svg>`,
+            "real madrid": `<svg viewBox="0 0 100 100" width="55" height="55"><circle cx="50" cy="50" r="46" fill="#fff" stroke="#ffd700" stroke-width="6"/><text x="50" y="58" font-size="26" font-weight="bold" fill="#000080" text-anchor="middle">RM</text></svg>`,
+            "barcelona": `<svg viewBox="0 0 100 100" width="55" height="55"><rect x="10" y="10" width="80" height="80" rx="10" fill="#a50044" stroke="#edbb00" stroke-width="6"/><text x="50" y="58" font-size="26" font-weight="bold" fill="#edbb00" text-anchor="middle">FCB</text></svg>`
         };
 
-        const logoPersonalizzato = document.querySelector('.team-logo-container').innerHTML;
         let carrieraCorrente = "";
 
         window.onload = function() {
@@ -912,10 +891,10 @@
             document.getElementById('display-team').innerText = nomeSquadra;
             document.getElementById('table-first').innerText = nomeSquadra;
 
-            let chiave = nomeSquadra.toLowerCase();
+            let chiave = nomeSquadra.toLowerCase().trim();
             let logoBox = document.getElementById('logo-box');
-            if (loghiSquadre[chiave]) {
-                logoBox.innerHTML = `<img src="${loghiSquadre[chiave]}" alt="${nomeSquadra}">`;
+            if (loghiSvg[chiave]) {
+                logoBox.innerHTML = loghiSvg[chiave];
             }
             mostraToast("Logo impostato: " + nomeSquadra);
         }
@@ -973,13 +952,10 @@
                 document.getElementById('display-team').innerText = squadraInput;
                 document.getElementById('table-first').innerText = squadraInput;
 
-                let chiave = squadraInput.toLowerCase();
+                let chiave = squadraInput.toLowerCase().trim();
                 let logoBox = document.getElementById('logo-box');
-                
-                if (loghiSquadre[chiave]) {
-                    logoBox.innerHTML = `<img src="${loghiSquadre[chiave]}" alt="${squadraInput}">`;
-                } else if (!logoBox.querySelector('img')) {
-                    // Non sovrascrive se c'è già un logo personalizzato e non è in dizionario
+                if (loghiSvg[chiave]) {
+                    logoBox.innerHTML = loghiSvg[chiave];
                 }
             }
             if (allenatore !== "") document.getElementById('display-coach').innerText = allenatore;
@@ -1220,7 +1196,6 @@
             if (!savedData) return;
 
             let data = JSON.parse(savedData);
-            applicaDatiCard(data, nome); // helper o chiamata diretta
             applicaDatiCarriera(data, nome);
             mostraToast("Carriera '" + nome + "' caricata!");
         }
