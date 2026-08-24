@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Football Life 26 - Career Hub</title>
-    <!-- Favicon personalizzata FL -->
     <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 100' width='60' height='50'%3E%3Cpath d='M15,35 L25,35 L23,55 C23,60 17,62 15,62 C13,62 7,60 7,55 L5,35 Z' fill='%23e3b341'/%3E%3Cpath d='M11,62 L19,62 L18,72 L12,72 Z' fill='%23e3b341'/%3E%3Crect x='8' y='72' width='14' height='4' fill='%238b949e'/%3E%3Cpath d='M95,35 L105,35 L103,55 C103,60 97,62 95,62 C93,62 87,60 87,55 L85,35 Z' fill='%23e3b341'/%3E%3Cpath d='M91,62 L99,62 L98,72 L92,72 Z' fill='%23e3b341'/%3E%3Crect x='88' y='72' width='14' height='4' fill='%238b949e'/%3E%3Cpolygon points='60,10 90,25 90,65 60,90 30,65 30,25' fill='%23161b22' stroke='%2358a6ff' stroke-width='4'/%3E%3Ccircle cx='60' cy='50' r='22' fill='%23ffffff' stroke='%23091a10' stroke-width='2'/%3E%3Ctext x='60' y='57' font-size='16' font-weight='bold' fill='%23091a10' text-anchor='middle' font-family='Arial'%3EFL%3C/text%3E%3C/svg%3E">
     
     <style>
@@ -37,6 +36,33 @@
             --accent-color: #e3b341;
             --btn-green: #9e8236;
             --btn-green-hover: #bda245;
+        }
+
+        [data-theme="sunset"] {
+            --bg-gradient: linear-gradient(135deg, #2b0f14 0%, #3d141b 50%, #140507 100%);
+            --card-bg: rgba(35, 20, 24, 0.95);
+            --border-color: #5c232c;
+            --accent-color: #ff7b72;
+            --btn-green: #da3633;
+            --btn-green-hover: #f85149;
+        }
+
+        [data-theme="cyberpunk"] {
+            --bg-gradient: linear-gradient(135deg, #0f0b24 0%, #1b1138 50%, #070412 100%);
+            --card-bg: rgba(24, 18, 43, 0.95);
+            --border-color: #4b2e83;
+            --accent-color: #d2a8ff;
+            --btn-green: #8957e5;
+            --btn-green-hover: #a371f7;
+        }
+
+        [data-theme="emerald"] {
+            --bg-gradient: linear-gradient(135deg, #042114 0%, #073b22 50%, #020f09 100%);
+            --card-bg: rgba(13, 33, 23, 0.95);
+            --border-color: #1f5138;
+            --accent-color: #3fb950;
+            --btn-green: #238636;
+            --btn-green-hover: #2ea043;
         }
 
         body {
@@ -259,6 +285,28 @@
             filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
         }
 
+        .quick-logos {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .quick-logo-btn {
+            background: var(--stats-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 4px 8px;
+            font-size: 11px;
+            color: var(--text-main);
+            cursor: pointer;
+            width: auto;
+        }
+        .quick-logo-btn:hover {
+            border-color: var(--accent-color);
+            background-color: var(--card-bg);
+        }
+
         .card h3, .controls h3, .table-box h3 {
             margin-top: 0;
             color: var(--accent-color);
@@ -383,6 +431,43 @@
         .trophy-icon { font-size: 28px; }
         .trophy-info h5 { margin: 0; font-size: 14px; color: var(--text-main); }
         .trophy-info p { margin: 2px 0 0 0; font-size: 12px; color: var(--text-muted); }
+
+        /* Galleria Scudetti rapida */
+        .badge-gallery {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+            justify-content: center;
+        }
+        .badge-item {
+            background: var(--stats-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 8px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            width: 80px;
+        }
+        .badge-item:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+        .badge-item img {
+            width: 30px;
+            height: 30px;
+            object-fit: contain;
+            margin-bottom: 4px;
+        }
+        .badge-item span {
+            font-size: 10px;
+            display: block;
+            color: var(--text-muted);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
     </style>
 </head>
 <body data-theme="classic">
@@ -393,6 +478,9 @@
             <option value="classic">🟢 Classic Green</option>
             <option value="midnight">🌙 Midnight Blue</option>
             <option value="gold">🏆 Royal Gold</option>
+            <option value="sunset">🌇 Sunset Red</option>
+            <option value="cyberpunk">⚡ Cyberpunk</option>
+            <option value="emerald">💎 Emerald Forest</option>
         </select>
     </div>
 
@@ -444,6 +532,14 @@
                         <circle cx="60" cy="50" r="22" fill="#ffffff" stroke="#091a10" stroke-width="2"/>
                         <text x="60" y="57" font-size="16" font-weight="bold" fill="#091a10" text-anchor="middle" font-family="Arial">FL</text>
                     </svg>
+                </div>
+                <!-- Loghi Rapidi -->
+                <div class="quick-logos">
+                    <button class="quick-logo-btn" onclick="impostaLogoRapido('Inter')">Inter</button>
+                    <button class="quick-logo-btn" onclick="impostaLogoRapido('Milan')">Milan</button>
+                    <button class="quick-logo-btn" onclick="impostaLogoRapido('Juventus')">Juve</button>
+                    <button class="quick-logo-btn" onclick="impostaLogoRapido('Napoli')">Napoli</button>
+                    <button class="quick-logo-btn" onclick="impostaLogoRapido('Real Madrid')">Real</button>
                 </div>
                 <h3 id="display-team">La Tua Squadra</h3>
                 <div class="season">Stagione 2026/2027 • Master League</div>
@@ -511,12 +607,84 @@
             </div>
         </div>
 
-        <!-- 📝 DIARIO DELL'ALLENATORE (POSIZIONATO QUI CORRETTAMENTE) -->
+        <!-- GALLERIA SCUDETTI RAPIDA -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <h3>🖼️ Galleria Scudetti & Loghi Rapidi</h3>
+            </div>
+            <p style="margin: 0 0 10px 0; color: var(--text-muted); font-size: 13px;">Clicca su un logo per impostarlo immediatamente sulla tua scheda:</p>
+            <div class="badge-gallery">
+                <div class="badge-item" onclick="impostaLogoRapido('Inter')">
+                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/110.png" alt="Inter">
+                    <span>Inter</span>
+                </div>
+                <div class="badge-item" onclick="impostaLogoRapido('Milan')">
+                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/103.png" alt="Milan">
+                    <span>Milan</span>
+                </div>
+                <div class="badge-item" onclick="impostaLogoRapido('Juventus')">
+                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/111.png" alt="Juventus">
+                    <span>Juventus</span>
+                </div>
+                <div class="badge-item" onclick="impostaLogoRapido('Napoli')">
+                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/607.png" alt="Napoli">
+                    <span>Napoli</span>
+                </div>
+                <div class="badge-item" onclick="impostaLogoRapido('Roma')">
+                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/104.png" alt="Roma">
+                    <span>Roma</span>
+                </div>
+                <div class="badge-item" onclick="impostaLogoRapido('Lazio')">
+                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/112.png" alt="Lazio">
+                    <span>Lazio</span>
+                </div>
+                <div class="badge-item" onclick="impostaLogoRapido('Atalanta')">
+                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/113.png" alt="Atalanta">
+                    <span>Atalanta</span>
+                </div>
+                <div class="badge-item" onclick="impostaLogoRapido('Real Madrid')">
+                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/86.png" alt="Real Madrid">
+                    <span>Real Madrid</span>
+                </div>
+                <div class="badge-item" onclick="impostaLogoRapido('Barcelona')">
+                    <img src="https://a.espncdn.com/i/teamlogos/soccer/505/83.png" alt="Barcelona">
+                    <span>Barcelona</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 📝 DIARIO DELL'ALLENATORE -->
         <div class="full-width-section">
             <div class="section-header">
                 <h3>📝 Diario dell'Allenatore & Note Tattiche</h3>
             </div>
             <textarea id="manager-diary" placeholder="Scrivi qui gli obiettivi della dirigenza, le idee di formazione, i colpi di mercato pianificati o il riassunto della stagione..."></textarea>
+        </div>
+
+        <!-- OBIETTIVI DI MERCATO / WISHLIST -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <h3>🎯 Obiettivi di Mercato (Wishlist)</h3>
+                <button class="btn-small" onclick="aggiungiObiettivoMercato()">+ Aggiungi Obiettivo</button>
+            </div>
+            <table id="wishlist-table">
+                <thead>
+                    <tr>
+                        <th>Giocatore</th>
+                        <th>Ruolo</th>
+                        <th>Club Attuale</th>
+                        <th>Priorità / Note</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable="true">Nome Talento</td>
+                        <td contenteditable="true">CC</td>
+                        <td contenteditable="true">Club di provenienza</td>
+                        <td contenteditable="true">Alta 🔴</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <!-- BACHECA TROFEI VISIVA -->
@@ -739,6 +907,19 @@
             calcolaStatisticheGlobali();
         }
 
+        function impostaLogoRapido(nomeSquadra) {
+            document.getElementById('input-team').value = nomeSquadra;
+            document.getElementById('display-team').innerText = nomeSquadra;
+            document.getElementById('table-first').innerText = nomeSquadra;
+
+            let chiave = nomeSquadra.toLowerCase();
+            let logoBox = document.getElementById('logo-box');
+            if (loghiSquadre[chiave]) {
+                logoBox.innerHTML = `<img src="${loghiSquadre[chiave]}" alt="${nomeSquadra}">`;
+            }
+            mostraToast("Logo impostato: " + nomeSquadra);
+        }
+
         function calcolaStatisticheGlobali() {
             let rosterRows = document.querySelectorAll("#roster-table tbody tr");
             let sommaOvr = 0;
@@ -797,8 +978,8 @@
                 
                 if (loghiSquadre[chiave]) {
                     logoBox.innerHTML = `<img src="${loghiSquadre[chiave]}" alt="${squadraInput}">`;
-                } else {
-                    logoBox.innerHTML = logoPersonalizzato;
+                } else if (!logoBox.querySelector('img')) {
+                    // Non sovrascrive se c'è già un logo personalizzato e non è in dizionario
                 }
             }
             if (allenatore !== "") document.getElementById('display-coach').innerText = allenatore;
@@ -809,6 +990,13 @@
             if (punti !== "") document.getElementById('table-pts').innerText = punti;
 
             mostraToast("Scheda aggiornata correttamente!");
+        }
+
+        function aggiungiObiettivoMercato(giocatore = "Nome Talento", ruolo = "CC", club = "Club", priorita = "Alta 🔴") {
+            let table = document.getElementById('wishlist-table').getElementsByTagName('tbody')[0];
+            let newRow = table.insertRow();
+            newRow.innerHTML = `<td contenteditable="true">${giocatore}</td><td contenteditable="true">${ruolo}</td><td contenteditable="true">${club}</td><td contenteditable="true">${priorita}</td>`;
+            mostraToast("Obiettivo di mercato aggiunto!");
         }
 
         function aggiungiTrofeoBacheca(nome = "Nome Trofeo / Coppa", stagione = "Stagione 2026/2027", icona = "🏆") {
@@ -900,6 +1088,7 @@
                 logoHtml: document.getElementById('logo-box').innerHTML,
                 trophiesHtml: document.getElementById('trophy-container').innerHTML,
                 
+                wishlist: getTableData('wishlist-table'),
                 calendar: getTableData('calendar-table'),
                 market: getTableData('market-table'),
                 scorers: getTableData('scorers-table'),
@@ -931,6 +1120,7 @@
             document.getElementById('logo-box').innerHTML = data.logoHtml;
             if(data.trophiesHtml) document.getElementById('trophy-container').innerHTML = data.trophiesHtml;
 
+            loadTableData('wishlist-table', data.wishlist);
             loadTableData('calendar-table', data.calendar);
             loadTableData('market-table', data.market);
             loadTableData('scorers-table', data.scorers);
@@ -1030,12 +1220,14 @@
             if (!savedData) return;
 
             let data = JSON.parse(savedData);
+            applicaDatiCard(data, nome); // helper o chiamata diretta
             applicaDatiCarriera(data, nome);
             mostraToast("Carriera '" + nome + "' caricata!");
         }
 
         function loadTableData(tableId, data) {
             let tbody = document.querySelector("#" + tableId + " tbody");
+            if(!tbody) return;
             tbody.innerHTML = "";
             if (!data) return;
             data.forEach(rowData => {
