@@ -7,59 +7,66 @@
     
     <style>
         :root {
-            --bg-gradient: linear-gradient(135deg, #091a10 0%, #0d2818 50%, #051009 100%);
-            --card-bg: rgba(22, 27, 34, 0.92);
-            --border-color: #30363d;
-            --text-main: #ffffff;
+            --bg-gradient: linear-gradient(135deg, #060d09 0%, #0b1a11 50%, #030704 100%);
+            --card-bg: rgba(18, 24, 20, 0.85);
+            --border-color: rgba(48, 54, 61, 0.7);
+            --text-main: #f0f6fc;
             --text-muted: #8b949e;
-            --accent-color: #58a6ff;
+            --accent-color: #3fb950;
+            --accent-glow: rgba(63, 185, 80, 0.25);
             --btn-green: #238636;
             --btn-green-hover: #2ea043;
-            --stats-bg: rgba(33, 38, 45, 0.8);
+            --stats-bg: rgba(22, 27, 34, 0.75);
             --input-bg: #0d1117;
+            --nav-bg: rgba(13, 17, 23, 0.9);
         }
 
         [data-theme="midnight"] {
-            --bg-gradient: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #010409 100%);
-            --card-bg: rgba(22, 27, 34, 0.95);
-            --border-color: #30363d;
-            --accent-color: #1f6feb;
+            --bg-gradient: linear-gradient(135deg, #090d16 0%, #111625 50%, #020408 100%);
+            --card-bg: rgba(18, 22, 31, 0.85);
+            --border-color: rgba(48, 54, 61, 0.7);
+            --accent-color: #58a6ff;
+            --accent-glow: rgba(88, 166, 255, 0.25);
             --btn-green: #1f6feb;
             --btn-green-hover: #388bfd;
         }
 
         [data-theme="gold"] {
-            --bg-gradient: linear-gradient(135deg, #1a1609 0%, #2b230d 50%, #0f0d05 100%);
-            --card-bg: rgba(26, 24, 16, 0.95);
-            --border-color: #443c1d;
+            --bg-gradient: linear-gradient(135deg, #141106 0%, #211c0a 50%, #080702 100%);
+            --card-bg: rgba(24, 22, 14, 0.85);
+            --border-color: rgba(68, 60, 29, 0.7);
             --accent-color: #e3b341;
+            --accent-glow: rgba(227, 179, 65, 0.25);
             --btn-green: #9e8236;
             --btn-green-hover: #bda245;
         }
 
         [data-theme="sunset"] {
-            --bg-gradient: linear-gradient(135deg, #2b0f14 0%, #3d141b 50%, #140507 100%);
-            --card-bg: rgba(35, 20, 24, 0.95);
-            --border-color: #5c232c;
+            --bg-gradient: linear-gradient(135deg, #1f080b 0%, #2e0d12 50%, #0a0203 100%);
+            --card-bg: rgba(28, 16, 19, 0.85);
+            --border-color: rgba(92, 35, 44, 0.7);
             --accent-color: #ff7b72;
+            --accent-glow: rgba(255, 123, 114, 0.25);
             --btn-green: #da3633;
             --btn-green-hover: #f85149;
         }
 
         [data-theme="cyberpunk"] {
-            --bg-gradient: linear-gradient(135deg, #0f0b24 0%, #1b1138 50%, #070412 100%);
-            --card-bg: rgba(24, 18, 43, 0.95);
-            --border-color: #4b2e83;
+            --bg-gradient: linear-gradient(135deg, #0b071a 0%, #150c2e 50%, #030208 100%);
+            --card-bg: rgba(20, 14, 36, 0.85);
+            --border-color: rgba(75, 46, 131, 0.7);
             --accent-color: #d2a8ff;
+            --accent-glow: rgba(210, 168, 255, 0.25);
             --btn-green: #8957e5;
             --btn-green-hover: #a371f7;
         }
 
         [data-theme="emerald"] {
-            --bg-gradient: linear-gradient(135deg, #042114 0%, #073b22 50%, #020f09 100%);
-            --card-bg: rgba(13, 33, 23, 0.95);
-            --border-color: #1f5138;
+            --bg-gradient: linear-gradient(135deg, #021a0f 0%, #042e1a 50%, #010804 100%);
+            --card-bg: rgba(10, 26, 18, 0.85);
+            --border-color: rgba(31, 81, 56, 0.7);
             --accent-color: #3fb950;
+            --accent-glow: rgba(63, 185, 80, 0.25);
             --btn-green: #238636;
             --btn-green-hover: #2ea043;
         }
@@ -67,11 +74,11 @@
         body {
             background: var(--bg-gradient);
             color: var(--text-main);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 30px;
+            padding: 20px;
             margin: 0;
             min-height: 100vh;
             box-sizing: border-box;
@@ -79,25 +86,35 @@
             transition: background 0.3s ease;
         }
 
-        .theme-selector {
+        .top-bar-controls {
             position: fixed;
             top: 15px;
             right: 20px;
             z-index: 1000;
             display: flex;
-            gap: 8px;
+            gap: 10px;
             align-items: center;
-            background: var(--card-bg);
-            padding: 6px 12px;
+        }
+
+        .theme-selector {
+            background: var(--nav-bg);
+            padding: 5px 12px;
             border-radius: 20px;
             border: 1px solid var(--border-color);
-            backdrop-filter: blur(6px);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         .theme-selector select {
             width: auto;
             margin-bottom: 0;
-            padding: 4px 8px;
-            font-size: 12px;
+            padding: 3px 6px;
+            font-size: 11px;
+            background: transparent;
+            border: none;
+            color: var(--text-main);
+            cursor: pointer;
         }
 
         .signature {
@@ -105,7 +122,7 @@
             bottom: 15px;
             right: 20px;
             color: var(--text-muted);
-            font-size: 13px;
+            font-size: 12px;
             letter-spacing: 1px;
             font-weight: 600;
             z-index: 1000;
@@ -113,7 +130,7 @@
 
         #toast-container {
             position: fixed;
-            bottom: 45px;
+            bottom: 20px;
             left: 20px;
             z-index: 9999;
             display: flex;
@@ -124,64 +141,67 @@
             background-color: var(--card-bg);
             border: 1px solid var(--accent-color);
             color: var(--text-main);
-            padding: 12px 20px;
+            padding: 10px 18px;
             border-radius: 8px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
-            font-size: 14px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+            font-size: 13px;
             font-weight: 600;
             display: flex;
             align-items: center;
             gap: 10px;
-            animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.7s forwards;
-            backdrop-filter: blur(6px);
+            animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1), fadeOut 0.3s ease 2.7s forwards;
+            backdrop-filter: blur(8px);
         }
-        @keyframes slideIn { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-        @keyframes fadeOut { to { opacity: 0; transform: translateY(10px); } }
+        @keyframes slideIn { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeOut { to { opacity: 0; transform: translateY(-10px); } }
 
         #welcome-screen {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 75vh;
+            height: 80vh;
             text-align: center;
             position: relative;
             z-index: 2;
         }
         #welcome-screen h1 {
-            font-size: 42px;
+            font-size: 48px;
             color: var(--accent-color);
-            margin-bottom: 10px;
-            text-shadow: 0 4px 12px rgba(0,0,0,0.8);
+            margin-bottom: 8px;
+            text-shadow: 0 0 30px var(--accent-glow);
+            letter-spacing: 2px;
         }
         #welcome-screen p {
             color: var(--text-muted);
-            font-size: 16px;
+            font-size: 15px;
             margin-bottom: 30px;
         }
         .btn-start {
-            padding: 15px 40px;
+            padding: 14px 38px;
             background-color: var(--btn-green);
             color: white;
             border: none;
             border-radius: 8px;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-            transition: transform 0.2s, background-color 0.2s;
+            box-shadow: 0 4px 20px var(--accent-glow);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
         .btn-start:hover {
             background-color: var(--btn-green-hover);
-            transform: scale(1.05);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px var(--accent-glow);
         }
 
         #main-app {
             display: none;
             width: 100%;
-            max-width: 1100px;
+            max-width: 1050px;
             position: relative;
             z-index: 2;
+            padding-top: 10px;
         }
 
         .main-title {
@@ -190,34 +210,78 @@
         }
         .main-title h2 {
             margin: 0;
-            font-size: 28px;
+            font-size: 24px;
             color: var(--text-main);
             letter-spacing: 1px;
         }
         .main-title p {
-            margin: 5px 0 0 0;
+            margin: 4px 0 0 0;
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 13px;
         }
+
+        /* BARRA DI NAVIGAZIONE A SCHEDE (TABS) */
+        .nav-tabs {
+            display: flex;
+            gap: 6px;
+            background-color: var(--nav-bg);
+            padding: 6px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+            backdrop-filter: blur(8px);
+            overflow-x: auto;
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            padding: 10px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+            width: auto;
+        }
+        .tab-btn:hover {
+            color: var(--text-main);
+            background: rgba(255,255,255,0.04);
+        }
+        .tab-btn.active {
+            background-color: var(--accent-color);
+            color: #0d1117;
+            box-shadow: 0 2px 10px var(--accent-glow);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
 
         .career-manager-box {
             background-color: var(--card-bg);
-            backdrop-filter: blur(6px);
-            border: 2px solid var(--border-color);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
-            padding: 15px 20px;
+            padding: 14px 18px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+            margin-bottom: 20px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
             flex-wrap: wrap;
             gap: 12px;
         }
         .career-manager-box h4 {
             margin: 0;
             color: var(--accent-color);
-            font-size: 15px;
+            font-size: 14px;
         }
         .career-controls {
             display: flex;
@@ -227,40 +291,44 @@
         }
         .career-controls input, .career-controls select {
             margin-bottom: 0;
-            width: 160px;
+            width: 150px;
+            font-size: 12px;
+            padding: 6px 10px;
         }
         .btn-career {
             width: auto;
-            padding: 8px 12px;
-            font-size: 13px;
+            padding: 6px 12px;
+            font-size: 12px;
             background-color: var(--btn-green);
+            border-radius: 6px;
         }
         .btn-career:hover { background-color: var(--btn-green-hover); }
-        .btn-secondary { background-color: #30363d !important; }
-        .btn-secondary:hover { background-color: #484f58 !important; }
+        .btn-secondary { background-color: #21262d !important; border: 1px solid var(--border-color); }
+        .btn-secondary:hover { background-color: #30363d !important; }
         .btn-danger { background-color: #da3633 !important; }
         .btn-danger:hover { background-color: #f85149 !important; }
 
-        .container {
-            display: flex;
+        .grid-2col {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 20px;
-            flex-wrap: wrap;
-            justify-content: center;
+            margin-bottom: 20px;
         }
-        .card, .controls, .table-box {
+
+        .card, .controls, .table-box, .full-width-section {
             background-color: var(--card-bg);
-            backdrop-filter: blur(6px);
-            border: 2px solid var(--border-color);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border-color);
             border-radius: 12px;
             padding: 20px;
-            width: 330px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
             margin-bottom: 20px;
+            box-sizing: border-box;
         }
         
         .team-logo-container {
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             height: 60px;
             display: flex;
             align-items: center;
@@ -269,14 +337,14 @@
         .team-logo-container svg {
             max-height: 55px;
             max-width: 55px;
-            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.4));
         }
 
         .quick-logos {
             display: flex;
             gap: 6px;
             justify-content: center;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             flex-wrap: wrap;
         }
         .quick-logo-btn {
@@ -288,61 +356,73 @@
             color: var(--text-main);
             cursor: pointer;
             width: auto;
+            transition: all 0.2s;
         }
         .quick-logo-btn:hover {
             border-color: var(--accent-color);
             background-color: var(--card-bg);
         }
 
-        .card h3, .controls h3, .table-box h3 {
+        .card h3, .controls h3, .table-box h3, .section-header h3 {
             margin-top: 0;
             color: var(--accent-color);
-            font-size: 16px;
-            text-align: center;
+            font-size: 15px;
+            letter-spacing: 0.5px;
         }
         .season {
             color: var(--text-muted);
-            font-size: 13px;
+            font-size: 12px;
             text-align: center;
             margin-bottom: 15px;
+            font-weight: 500;
         }
         .stats {
             background-color: var(--stats-bg);
-            padding: 12px;
+            padding: 14px;
             border-radius: 8px;
+            border: 1px solid var(--border-color);
         }
         .stat-row {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 6px;
-            font-size: 14px;
+            margin-bottom: 8px;
+            font-size: 13px;
         }
         .stat-row:last-child { margin-bottom: 0; }
         
         input, select, textarea {
             width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
+            padding: 8px 12px;
+            margin-bottom: 12px;
             background-color: var(--input-bg);
             border: 1px solid var(--border-color);
             border-radius: 6px;
             color: var(--text-main);
             box-sizing: border-box;
             font-family: inherit;
+            font-size: 13px;
+            transition: border-color 0.2s;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px var(--accent-glow);
         }
         textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 120px;
         }
         button {
             width: 100%;
-            padding: 10px;
+            padding: 9px;
             background-color: var(--btn-green);
             color: white;
             border: none;
             border-radius: 6px;
-            font-weight: bold;
+            font-weight: 600;
+            font-size: 13px;
             cursor: pointer;
+            transition: background-color 0.2s;
         }
         button:hover { background-color: var(--btn-green-hover); }
 
@@ -352,56 +432,41 @@
             font-size: 13px;
         }
         th, td {
-            padding: 8px;
+            padding: 9px 10px;
             text-align: left;
             border-bottom: 1px solid var(--border-color);
         }
-        th { color: var(--text-muted); }
+        th { color: var(--text-muted); font-weight: 600; font-size: 12px; }
 
         [contenteditable="true"] {
-            outline: 1px dashed rgba(88, 166, 255, 0.4);
-            padding: 2px 4px;
+            outline: 1px dashed rgba(88, 166, 255, 0.3);
+            padding: 3px 6px;
             border-radius: 4px;
+            transition: background 0.2s;
         }
         [contenteditable="true"]:focus {
             outline: 2px solid var(--accent-color);
             background-color: var(--input-bg);
         }
 
-        .full-width-section {
-            background-color: var(--card-bg);
-            backdrop-filter: blur(6px);
-            border: 2px solid var(--border-color);
-            border-radius: 12px;
-            padding: 20px;
-            width: 100%;
-            box-sizing: border-box;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.7);
-            margin-top: 10px;
-            margin-bottom: 20px;
-        }
         .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 10px;
-        }
-        .section-header h3 {
-            margin: 0;
-            color: var(--accent-color);
-            font-size: 16px;
+            margin-bottom: 12px;
         }
         .btn-small {
             width: auto;
-            padding: 5px 12px;
-            font-size: 12px;
-            background-color: var(--border-color);
+            padding: 5px 10px;
+            font-size: 11px;
+            background-color: #21262d;
+            border: 1px solid var(--border-color);
         }
-        .btn-small:hover { background-color: #484f58; }
+        .btn-small:hover { background-color: #30363d; }
 
         .trophy-grid {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
             margin-top: 10px;
         }
@@ -409,22 +474,21 @@
             background: var(--stats-bg);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 10px 15px;
+            padding: 10px 14px;
             display: flex;
             align-items: center;
-            gap: 12px;
-            min-width: 200px;
+            gap: 10px;
+            min-width: 190px;
         }
-        .trophy-icon { font-size: 28px; }
-        .trophy-info h5 { margin: 0; font-size: 14px; color: var(--text-main); }
-        .trophy-info p { margin: 2px 0 0 0; font-size: 12px; color: var(--text-muted); }
+        .trophy-icon { font-size: 24px; }
+        .trophy-info h5 { margin: 0; font-size: 13px; color: var(--text-main); }
+        .trophy-info p { margin: 2px 0 0 0; font-size: 11px; color: var(--text-muted); }
 
         .badge-gallery {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             flex-wrap: wrap;
             margin-top: 10px;
-            justify-content: center;
         }
         .badge-item {
             background: var(--stats-bg);
@@ -434,7 +498,7 @@
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
-            width: 85px;
+            width: 80px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -443,10 +507,11 @@
         .badge-item:hover {
             border-color: var(--accent-color);
             transform: translateY(-2px);
+            background: var(--card-bg);
         }
         .badge-item svg {
-            width: 35px;
-            height: 35px;
+            width: 32px;
+            height: 32px;
             margin-bottom: 6px;
         }
         .badge-item span {
@@ -456,18 +521,20 @@
         }
     </style>
 </head>
-<body data-theme="classic">
+<body data-theme="emerald">
 
-    <div class="theme-selector">
-        <span style="font-size: 12px; color: var(--text-muted);">Tema:</span>
-        <select id="theme-changer" onchange="cambiaTema(this.value)">
-            <option value="classic">🟢 Classic Green</option>
-            <option value="midnight">🌙 Midnight Blue</option>
-            <option value="gold">🏆 Royal Gold</option>
-            <option value="sunset">🌇 Sunset Red</option>
-            <option value="cyberpunk">⚡ Cyberpunk</option>
-            <option value="emerald">💎 Emerald Forest</option>
-        </select>
+    <div class="top-bar-controls">
+        <div class="theme-selector">
+            <span style="font-size: 11px; color: var(--text-muted);">Tema:</span>
+            <select id="theme-changer" onchange="cambiaTema(this.value)">
+                <option value="emerald">💎 Emerald Forest</option>
+                <option value="classic">🟢 Classic Green</option>
+                <option value="midnight">🌙 Midnight Blue</option>
+                <option value="gold">🏆 Royal Gold</option>
+                <option value="sunset">🌇 Sunset Red</option>
+                <option value="cyberpunk">⚡ Cyberpunk</option>
+            </select>
+        </div>
     </div>
 
     <div class="signature">By Jaco</div>
@@ -476,97 +543,259 @@
     <!-- SCHERMATA DI BENVENUTO -->
     <div id="welcome-screen">
         <h1>🎮 FOOTBALL LIFE 26</h1>
-        <p>Gestisci le tue Master League, Club e Nazionali</p>
-        <button class="btn-start" onclick="iniziaCarriera()">INIZIA CARRIERA</button>
+        <p>Pannello di controllo tattico e gestione carriere avanzata</p>
+        <button class="btn-start" onclick="iniziaCarriera()">ACCEDI ALL'HUB</button>
     </div>
 
     <!-- APPLICAZIONE PRINCIPALE -->
     <div id="main-app">
         <div class="main-title">
-            <h2>FOOTBALL LIFE 26 - HUB CARRIERA</h2>
-            <p>Pannello di controllo tattico, club e nazionali</p>
+            <h2>FOOTBALL LIFE 26 - CAREER HUB</h2>
+            <p>Dashboard operativa club e nazionali</p>
         </div>
 
-        <!-- SALVATAGGIO / CARICAMENTO CARRIERE & BACKUP JSON -->
+        <!-- ARCHIVIO & BACKUP -->
         <div class="career-manager-box">
-            <h4>💾 Archivio & Backup</h4>
+            <h4>💾 Archivio Carriere & Backup</h4>
             <div class="career-controls">
                 <select id="saved-careers-select" onchange="caricaCarrieraSelezionata()">
-                    <option value="">Seleziona carriera salvata...</option>
+                    <option value="">Carriera salvata...</option>
                 </select>
                 <input type="text" id="career-name-input" placeholder="Nome Carriera">
                 <button class="btn-career" onclick="salvaCarrieraCorrente()">Salva</button>
-                <button class="btn-career btn-secondary" onclick="esportaCarrieraJSON()" title="Esporta File JSON">📥 Esporta</button>
-                <button class="btn-career btn-secondary" onclick="document.getElementById('import-file-input').click()" title="Importa File JSON">📤 Importa</button>
+                <button class="btn-career btn-secondary" onclick="esportaCarrieraJSON()" title="Esporta JSON">📥 Esporta</button>
+                <button class="btn-career btn-secondary" onclick="document.getElementById('import-file-input').click()" title="Importa JSON">📤 Importa</button>
                 <input type="file" id="import-file-input" style="display:none" accept=".json" onchange="importaCarrieraJSON(event)">
                 <button class="btn-career btn-danger" onclick="eliminaCarrieraCorrente()">Elimina</button>
             </div>
         </div>
 
-        <div class="container">
-            <!-- SCHEDA DELLA SQUADRA -->
-            <div class="card">
-                <div class="team-logo-container" id="logo-box">
-                    <svg viewBox="0 0 100 100" width="55" height="55">
-                        <circle cx="50" cy="50" r="45" fill="#161b22" stroke="#e3b341" stroke-width="5"/>
-                        <text x="50" y="58" font-size="28" font-weight="bold" fill="#e3b341" text-anchor="middle" font-family="Arial">FL</text>
-                    </svg>
+        <!-- BARRA DI NAVIGAZIONE A SCHEDE -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" onclick="cambiaTab('tab-dashboard', event)">🏠 Dashboard</button>
+            <button class="tab-btn" onclick="cambiaTab('tab-rosa', event)">📋 Rosa & Tattica</button>
+            <button class="tab-btn" onclick="cambiaTab('tab-mercato', event)">🏥 Infermeria & Mercato</button>
+            <button class="tab-btn" onclick="cambiaTab('tab-calendario', event)">📅 Calendario & Coppe</button>
+            <button class="tab-btn" onclick="cambiaTab('tab-loghi', event)">🖼️ Galleria Loghi</button>
+        </div>
+
+        <!-- TAB 1: DASHBOARD -->
+        <div id="tab-dashboard" class="tab-content active">
+            <div class="grid-2col">
+                <!-- SCHEDA DELLA SQUADRA -->
+                <div class="card" style="margin-bottom:0;">
+                    <div class="team-logo-container" id="logo-box">
+                        <svg viewBox="0 0 100 100" width="55" height="55">
+                            <circle cx="50" cy="50" r="45" fill="#161b22" stroke="#3fb950" stroke-width="5"/>
+                            <text x="50" y="58" font-size="28" font-weight="bold" fill="#3fb950" text-anchor="middle" font-family="Arial">FL</text>
+                        </svg>
+                    </div>
+                    <div class="quick-logos">
+                        <button class="quick-logo-btn" onclick="impostaLogoRapido('Inter')">Inter</button>
+                        <button class="quick-logo-btn" onclick="impostaLogoRapido('Milan')">Milan</button>
+                        <button class="quick-logo-btn" onclick="impostaLogoRapido('Juventus')">Juve</button>
+                        <button class="quick-logo-btn" onclick="impostaLogoRapido('Napoli')">Napoli</button>
+                        <button class="quick-logo-btn" onclick="impostaLogoRapido('Real Madrid')">Real</button>
+                    </div>
+                    <h3 id="display-team">La Tua Squadra</h3>
+                    <div class="season">Stagione 2026/2027 • Master League</div>
+                    
+                    <div class="stats">
+                        <div class="stat-row">
+                            <span>Allenatore:</span>
+                            <strong id="display-coach">Il tuo Nome</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>Competizione:</span>
+                            <strong id="display-league">Serie A</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>Budget Mercato:</span>
+                            <strong id="display-budget">€ 50M</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>Budget Ingaggi / Anno:</span>
+                            <strong id="display-wage">€ 2.5M</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>OVR Medio Rosa:</span>
+                            <strong id="display-avg-ovr" style="color: var(--accent-color);">0</strong>
+                        </div>
+                        <div class="stat-row">
+                            <span>Trofei vinti:</span>
+                            <strong id="display-trophies">0</strong>
+                        </div>
+                    </div>
                 </div>
-                <!-- Loghi Rapidi -->
-                <div class="quick-logos">
-                    <button class="quick-logo-btn" onclick="impostaLogoRapido('Inter')">Inter</button>
-                    <button class="quick-logo-btn" onclick="impostaLogoRapido('Milan')">Milan</button>
-                    <button class="quick-logo-btn" onclick="impostaLogoRapido('Juventus')">Juve</button>
-                    <button class="quick-logo-btn" onclick="impostaLogoRapido('Napoli')">Napoli</button>
-                    <button class="quick-logo-btn" onclick="impostaLogoRapido('Real Madrid')">Real</button>
-                </div>
-                <h3 id="display-team">La Tua Squadra</h3>
-                <div class="season">Stagione 2026/2027 • Master League</div>
-                
-                <div class="stats">
-                    <div class="stat-row">
-                        <span>Allenatore:</span>
-                        <strong id="display-coach">Il tuo Nome</strong>
-                    </div>
-                    <div class="stat-row">
-                        <span>Competizione:</span>
-                        <strong id="display-league">Serie A</strong>
-                    </div>
-                    <div class="stat-row">
-                        <span>Budget Mercato:</span>
-                        <strong id="display-budget">€ 50M</strong>
-                    </div>
-                    <div class="stat-row">
-                        <span>Budget Ingaggi / Anno:</span>
-                        <strong id="display-wage">€ 2.5M</strong>
-                    </div>
-                    <div class="stat-row">
-                        <span>OVR Medio Rosa:</span>
-                        <strong id="display-avg-ovr" style="color: var(--accent-color);">0</strong>
-                    </div>
-                    <div class="stat-row">
-                        <span>Trofei vinti:</span>
-                        <strong id="display-trophies">0</strong>
-                    </div>
+
+                <!-- PANNELLO DI MODIFICA DATI CLUB -->
+                <div class="controls" style="margin-bottom:0;">
+                    <h3>⚙️ Modifica Dati Club</h3>
+                    <input type="text" id="input-team" placeholder="Nome Squadra">
+                    <input type="text" id="input-coach" placeholder="Nome Allenatore">
+                    <input type="text" id="input-league" placeholder="Competizione / Campionato">
+                    <input type="text" id="input-budget" placeholder="Budget Mercato (es. € 75M)">
+                    <input type="text" id="input-wage" placeholder="Budget Ingaggi (es. € 3M)">
+                    <input type="number" id="input-trophies" placeholder="Trofei vinti">
+                    <input type="number" id="input-pts" placeholder="Punti in classifica">
+                    <button onclick="aggiornaDati()">Aggiorna Scheda</button>
                 </div>
             </div>
 
-            <!-- PANNELLO DI MODIFICA -->
-            <div class="controls">
-                <h3>Gestione Dati</h3>
-                <input type="text" id="input-team" placeholder="Nome Squadra">
-                <input type="text" id="input-coach" placeholder="Nome Allenatore">
-                <input type="text" id="input-league" placeholder="Competizione / Campionato">
-                <input type="text" id="input-budget" placeholder="Budget Mercato (es. € 75M)">
-                <input type="text" id="input-wage" placeholder="Budget Ingaggi (es. € 3M)">
-                <input type="number" id="input-trophies" placeholder="Trofei vinti">
-                <input type="number" id="input-pts" placeholder="Punti in classifica">
-                <button onclick="aggiornaDati()">Aggiorna Scheda</button>
+            <!-- DIARIO DELL'ALLENATORE & BACHECA TROFEI -->
+            <div class="full-width-section">
+                <div class="section-header">
+                    <h3>📝 Diario dell'Allenatore & Note Tattiche</h3>
+                </div>
+                <textarea id="manager-diary" placeholder="Scrivi qui gli obiettivi della dirigenza, le idee di formazione, i colpi di mercato pianificati..."></textarea>
             </div>
 
-            <!-- CLASSIFICA RAPIDA -->
-            <div class="table-box">
-                <h3>Fronte Classifica</h3>
+            <div class="full-width-section">
+                <div class="section-header">
+                    <h3>🏆 Bacheca Trofei</h3>
+                    <button class="btn-small" onclick="aggiungiTrofeoBacheca()">+ Aggiungi Trofeo</button>
+                </div>
+                <div class="trophy-grid" id="trophy-container">
+                    <div class="trophy-card">
+                        <div class="trophy-icon">🥇</div>
+                        <div class="trophy-info">
+                            <h5>Esempio Trofeo</h5>
+                            <p>Stagione 2026/2027</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: ROSA & TATTICA -->
+        <div id="tab-rosa" class="tab-content">
+            <div class="full-width-section">
+                <div class="section-header">
+                    <h3>📋 La Tua Rosa & Formazione Titolare</h3>
+                    <button class="btn-small" onclick="aggiungiTitolare()">+ Aggiungi Giocatore</button>
+                </div>
+                <table id="roster-table">
+                    <thead>
+                        <tr>
+                            <th>Ruolo</th>
+                            <th>Nome Giocatore</th>
+                            <th>Valutazione (OVR)</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="full-width-section">
+                <div class="section-header">
+                    <h3>⚽ I Miei Marcatori <span id="total-goals-badge" style="font-size: 12px; color: var(--accent-color); font-weight: normal; margin-left: 10px;">(Totale Gol: 0)</span></h3>
+                    <button class="btn-small" onclick="aggiungiMarcatore()">+ Aggiungi Marcatore</button>
+                </div>
+                <table id="scorers-table">
+                    <thead>
+                        <tr>
+                            <th>Giocatore</th>
+                            <th>Ruolo</th>
+                            <th>Gol Segnati</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="full-width-section">
+                <div class="section-header">
+                    <h3>🎯 I Miei Assist-man <span id="total-assists-badge" style="font-size: 12px; color: var(--accent-color); font-weight: normal; margin-left: 10px;">(Totale Assist: 0)</span></h3>
+                    <button class="btn-small" onclick="aggiungiAssistman()">+ Aggiungi Assist-man</button>
+                </div>
+                <table id="assists-table">
+                    <thead>
+                        <tr>
+                            <th>Giocatore</th>
+                            <th>Ruolo</th>
+                            <th>Assist Fatti</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 3: INFERMERIA & MERCATO -->
+        <div id="tab-mercato" class="tab-content">
+            <div class="full-width-section">
+                <div class="section-header">
+                    <h3>🏥 Infermeria & Squalifiche</h3>
+                    <button class="btn-small" onclick="aggiungiInfermeria()">+ Aggiungi Indisponibile</button>
+                </div>
+                <table id="infermeria-table">
+                    <thead>
+                        <tr>
+                            <th>Giocatore</th>
+                            <th>Ruolo</th>
+                            <th>Stato (Infortunio / Squalifica)</th>
+                            <th>Tempo di Rec./ Stop</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td contenteditable="true">Nome Giocatore</td>
+                            <td contenteditable="true">CC</td>
+                            <td contenteditable="true">Distorsione (Infortunio) 🔴</td>
+                            <td contenteditable="true">3 Settimane</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="full-width-section">
+                <div class="section-header">
+                    <h3>🎯 Obiettivi di Mercato (Wishlist)</h3>
+                    <button class="btn-small" onclick="aggiungiObiettivoMercato()">+ Aggiungi Obiettivo</button>
+                </div>
+                <table id="wishlist-table">
+                    <thead>
+                        <tr>
+                            <th>Giocatore</th>
+                            <th>Ruolo</th>
+                            <th>Club Attuale</th>
+                            <th>Priorità / Note</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td contenteditable="true">Nome Talento</td>
+                            <td contenteditable="true">CC</td>
+                            <td contenteditable="true">Club</td>
+                            <td contenteditable="true">Alta 🔴</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="full-width-section">
+                <div class="section-header">
+                    <h3>🔄 Calciomercato & Trattative</h3>
+                    <button class="btn-small" onclick="aggiungiRigaMercato()">+ Aggiungi Trattativa</button>
+                </div>
+                <table id="market-table">
+                    <thead>
+                        <tr>
+                            <th>Giocatore</th>
+                            <th>Ruolo</th>
+                            <th>Trattativa / Club</th>
+                            <th>Costo / Valutazione</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- TAB 4: CALENDARIO & COPPE -->
+        <div id="tab-calendario" class="tab-content">
+            <div class="table-box" style="width: 100%; box-sizing: border-box;">
+                <h3>📊 Fronte Classifica Campionato</h3>
                 <table>
                     <thead>
                         <tr>
@@ -584,285 +813,134 @@
                     </tbody>
                 </table>
             </div>
+
+            <div class="full-width-section">
+                <div class="section-header">
+                    <h3>📅 Calendario Partite Campionato</h3>
+                    <button class="btn-small" onclick="aggiungiRigaCalendario()">+ Aggiungi Giornata</button>
+                </div>
+                <table id="calendar-table">
+                    <thead>
+                        <tr>
+                            <th>Giornata</th>
+                            <th>Avversario</th>
+                            <th>Luogo</th>
+                            <th>Stato / Risultato</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+
+            <div class="full-width-section">
+                <div class="section-header">
+                    <h3>⭐ Competizione Europea (League Phase)</h3>
+                    <button class="btn-small" onclick="aggiungiPartitaEuropa()">+ Aggiungi Partita Europa</button>
+                </div>
+                <div style="margin-bottom: 12px; display: flex; gap: 12px; flex-wrap: wrap;">
+                    <select id="input-europe-comp" style="max-width: 260px; margin-bottom: 0;">
+                        <option value="UEFA Champions League">UEFA Champions League 🏆</option>
+                        <option value="UEFA Europa League">UEFA Europa League 🟠</option>
+                        <option value="UEFA Conference League">UEFA Conference League 🟢</option>
+                    </select>
+                    <button class="btn-small" onclick="aggiornaCompetizioneEuropa()" style="background-color: var(--btn-green); color: #fff;">Seleziona Torneo</button>
+                </div>
+                <p style="margin: 0 0 12px 0; color: var(--text-muted); font-size: 12px;">Torneo Attivo: <strong id="display-europe-comp" style="color: var(--accent-color);">UEFA Champions League</strong></p>
+                
+                <table id="europe-table">
+                    <thead>
+                        <tr>
+                            <th>Giornata</th>
+                            <th>Avversario</th>
+                            <th>Casa / Trasferta</th>
+                            <th>Risultato / Esito</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td contenteditable="true">1ª Giornata</td>
+                            <td contenteditable="true">Avversario Europeo</td>
+                            <td contenteditable="true">Casa 🏠</td>
+                            <td contenteditable="true">Da Giocare</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="full-width-section">
+                <div class="section-header">
+                    <h3>🌍 Gestione Nazionale (CT / Tornei)</h3>
+                    <button class="btn-small" onclick="aggiungiConvocato()">+ Aggiungi Convocato</button>
+                </div>
+                <div style="margin-bottom: 12px; display: flex; gap: 12px; flex-wrap: wrap;">
+                    <input type="text" id="input-national-team" placeholder="Nazionale (es. Italia 🇮🇹)" style="max-width: 250px; margin-bottom: 0;">
+                    <input type="text" id="input-national-comp" placeholder="Torneo (es. Mondiali 2026)" style="max-width: 250px; margin-bottom: 0;">
+                    <button class="btn-small" onclick="aggiornaNazionale()" style="background-color: var(--btn-green); color: #fff;">Imposta Nazionale</button>
+                </div>
+                <p style="margin: 0 0 12px 0; color: var(--text-muted); font-size: 12px;">Stato Nazionale Attuale: <strong id="display-national" style="color: var(--accent-color);">Nessuna Nazionale Selezionata</strong></p>
+                
+                <table id="national-table">
+                    <thead>
+                        <tr>
+                            <th>Ruolo</th>
+                            <th>Giocatore Convocato</th>
+                            <th>Club di Appartenenza</th>
+                            <th>Note / Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
         </div>
 
-        <!-- GALLERIA SCUDETTI RAPIDA -->
-        <div class="full-width-section">
-            <div class="section-header">
-                <h3>🖼️ Galleria Scudetti & Loghi Rapidi</h3>
-            </div>
-            <p style="margin: 0 0 10px 0; color: var(--text-muted); font-size: 13px;">Clicca su un logo per impostarlo immediatamente sulla tua scheda:</p>
-            <div class="badge-gallery">
-                <div class="badge-item" onclick="impostaLogoRapido('Inter')">
-                    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#000000" stroke="#00bfff" stroke-width="6"/><text x="50" y="58" font-size="34" font-weight="bold" fill="#00bfff" text-anchor="middle">FC</text></svg>
-                    <span>Inter</span>
+        <!-- TAB 5: GALLERIA LOGHI -->
+        <div id="tab-loghi" class="tab-content">
+            <div class="full-width-section">
+                <div class="section-header">
+                    <h3>🖼️ Galleria Scudetti & Loghi Rapidi</h3>
                 </div>
-                <div class="badge-item" onclick="impostaLogoRapido('Milan')">
-                    <svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="15" fill="#fb2e01" stroke="#000" stroke-width="6"/><text x="50" y="58" font-size="32" font-weight="bold" fill="#000" text-anchor="middle">ACM</text></svg>
-                    <span>Milan</span>
-                </div>
-                <div class="badge-item" onclick="impostaLogoRapido('Juventus')">
-                    <svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="#ffffff" stroke="#000" stroke-width="6"/><path d="M35 25 L45 25 L55 75 L45 75 Z" fill="#000"/><path d="M55 25 L65 25 L60 75 L50 75 Z" fill="#000"/></svg>
-                    <span>Juventus</span>
-                </div>
-                <div class="badge-item" onclick="impostaLogoRapido('Napoli')">
-                    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#1e90ff" stroke="#ffffff" stroke-width="6"/><text x="50" y="58" font-size="32" font-weight="bold" fill="#ffffff" text-anchor="middle">N</text></svg>
-                    <span>Napoli</span>
-                </div>
-                <div class="badge-item" onclick="impostaLogoRapido('Roma')">
-                    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#800020" stroke="#ffd700" stroke-width="6"/><text x="50" y="58" font-size="32" font-weight="bold" fill="#ffd700" text-anchor="middle">ASR</text></svg>
-                    <span>Roma</span>
-                </div>
-                <div class="badge-item" onclick="impostaLogoRapido('Lazio')">
-                    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#87ceeb" stroke="#ffffff" stroke-width="6"/><text x="50" y="58" font-size="26" font-weight="bold" fill="#ffffff" text-anchor="middle">SSL</text></svg>
-                    <span>Lazio</span>
-                </div>
-                <div class="badge-item" onclick="impostaLogoRapido('Atalanta')">
-                    <svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="#1e3f66" stroke="#000" stroke-width="6"/><text x="50" y="58" font-size="26" font-weight="bold" fill="#00ffff" text-anchor="middle">ATA</text></svg>
-                    <span>Atalanta</span>
-                </div>
-                <div class="badge-item" onclick="impostaLogoRapido('Real Madrid')">
-                    <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#ffffff" stroke="#ffd700" stroke-width="6"/><text x="50" y="58" font-size="26" font-weight="bold" fill="#000080" text-anchor="middle">RM</text></svg>
-                    <span>Real Madrid</span>
-                </div>
-                <div class="badge-item" onclick="impostaLogoRapido('Barcelona')">
-                    <svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="#a50044" stroke="#edbb00" stroke-width="6"/><text x="50" y="58" font-size="26" font-weight="bold" fill="#edbb00" text-anchor="middle">FCB</text></svg>
-                    <span>Barcelona</span>
-                </div>
-            </div>
-        </div>
-
-        <!-- 📝 DIARIO DELL'ALLENATORE -->
-        <div class="full-width-section">
-            <div class="section-header">
-                <h3>📝 Diario dell'Allenatore & Note Tattiche</h3>
-            </div>
-            <textarea id="manager-diary" placeholder="Scrivi qui gli obiettivi della dirigenza, le idee di formazione, i colpi di mercato pianificati o il riassunto della stagione..."></textarea>
-        </div>
-
-        <!-- INFERMERIA & SQUALIFICHE (NUOVO!) -->
-        <div class="full-width-section">
-            <div class="section-header">
-                <h3>🏥 Infermeria & Squalifiche</h3>
-                <button class="btn-small" onclick="aggiungiInfermeria()">+ Aggiungi Giocatore</button>
-            </div>
-            <p style="margin: 0 0 10px 0; color: var(--text-muted); font-size: 13px;">Monitora i giocatori indisponibili per infortunio o squalifica in vista dei prossimi impegni:</p>
-            <table id="infermeria-table">
-                <thead>
-                    <tr>
-                        <th>Giocatore</th>
-                        <th>Ruolo</th>
-                        <th>Stato (Infortunio / Squalifica)</th>
-                        <th>Tempo di Rec./ Giornate di Stop</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td contenteditable="true">Nome Giocatore</td>
-                        <td contenteditable="true">CC</td>
-                        <td contenteditable="true">Distorsione (Infortunio) 🔴</td>
-                        <td contenteditable="true">3 Settimane</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- OBIETTIVI DI MERCATO / WISHLIST -->
-        <div class="full-width-section">
-            <div class="section-header">
-                <h3>🎯 Obiettivi di Mercato (Wishlist)</h3>
-                <button class="btn-small" onclick="aggiungiObiettivoMercato()">+ Aggiungi Obiettivo</button>
-            </div>
-            <table id="wishlist-table">
-                <thead>
-                    <tr>
-                        <th>Giocatore</th>
-                        <th>Ruolo</th>
-                        <th>Club Attuale</th>
-                        <th>Priorità / Note</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td contenteditable="true">Nome Talento</td>
-                        <td contenteditable="true">CC</td>
-                        <td contenteditable="true">Club di provenienza</td>
-                        <td contenteditable="true">Alta 🔴</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- BACHECA TROFEI VISIVA -->
-        <div class="full-width-section">
-            <div class="section-header">
-                <h3>🏆 Bacheca Trofei</h3>
-                <button class="btn-small" onclick="aggiungiTrofeoBacheca()">+ Aggiungi Trofeo</button>
-            </div>
-            <div class="trophy-grid" id="trophy-container">
-                <div class="trophy-card">
-                    <div class="trophy-icon">🥇</div>
-                    <div class="trophy-info">
-                        <h5>Esempio Trofeo</h5>
-                        <p>Stagione 2026/2027</p>
+                <p style="margin: 0 0 12px 0; color: var(--text-muted); font-size: 12px;">Clicca su un logo per impostarlo immediatamente sulla tua scheda club:</p>
+                <div class="badge-gallery">
+                    <div class="badge-item" onclick="impostaLogoRapido('Inter')">
+                        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#000" stroke="#00bfff" stroke-width="6"/><text x="50" y="58" font-size="34" font-weight="bold" fill="#00bfff" text-anchor="middle">FC</text></svg>
+                        <span>Inter</span>
+                    </div>
+                    <div class="badge-item" onclick="impostaLogoRapido('Milan')">
+                        <svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="15" fill="#fb2e01" stroke="#000" stroke-width="6"/><text x="50" y="58" font-size="32" font-weight="bold" fill="#000" text-anchor="middle">ACM</text></svg>
+                        <span>Milan</span>
+                    </div>
+                    <div class="badge-item" onclick="impostaLogoRapido('Juventus')">
+                        <svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="#fff" stroke="#000" stroke-width="6"/><path d="M35 25 L45 25 L55 75 L45 75 Z" fill="#000"/><path d="M55 25 L65 25 L60 75 L50 75 Z" fill="#000"/></svg>
+                        <span>Juventus</span>
+                    </div>
+                    <div class="badge-item" onclick="impostaLogoRapido('Napoli')">
+                        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#1e90ff" stroke="#fff" stroke-width="6"/><text x="50" y="58" font-size="32" font-weight="bold" fill="#fff" text-anchor="middle">N</text></svg>
+                        <span>Napoli</span>
+                    </div>
+                    <div class="badge-item" onclick="impostaLogoRapido('Roma')">
+                        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#800020" stroke="#ffd700" stroke-width="6"/><text x="50" y="58" font-size="32" font-weight="bold" fill="#ffd700" text-anchor="middle">ASR</text></svg>
+                        <span>Roma</span>
+                    </div>
+                    <div class="badge-item" onclick="impostaLogoRapido('Lazio')">
+                        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#87ceeb" stroke="#fff" stroke-width="6"/><text x="50" y="58" font-size="26" font-weight="bold" fill="#fff" text-anchor="middle">SSL</text></svg>
+                        <span>Lazio</span>
+                    </div>
+                    <div class="badge-item" onclick="impostaLogoRapido('Atalanta')">
+                        <svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="#1e3f66" stroke="#000" stroke-width="6"/><text x="50" y="58" font-size="26" font-weight="bold" fill="#00ffff" text-anchor="middle">ATA</text></svg>
+                        <span>Atalanta</span>
+                    </div>
+                    <div class="badge-item" onclick="impostaLogoRapido('Real Madrid')">
+                        <svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="46" fill="#fff" stroke="#ffd700" stroke-width="6"/><text x="50" y="58" font-size="26" font-weight="bold" fill="#000080" text-anchor="middle">RM</text></svg>
+                        <span>Real Madrid</span>
+                    </div>
+                    <div class="badge-item" onclick="impostaLogoRapido('Barcelona')">
+                        <svg viewBox="0 0 100 100"><rect x="10" y="10" width="80" height="80" rx="10" fill="#a50044" stroke="#edbb00" stroke-width="6"/><text x="50" y="58" font-size="26" font-weight="bold" fill="#edbb00" text-anchor="middle">FCB</text></svg>
+                        <span>Barcelona</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- SEZIONE NAZIONALI -->
-        <div class="full-width-section">
-            <div class="section-header">
-                <h3>🌍 Gestione Nazionale (CT / Tornei)</h3>
-                <button class="btn-small" onclick="aggiungiConvocato()">+ Aggiungi Convocato</button>
-            </div>
-            <div style="margin-bottom: 12px; display: flex; gap: 15px; flex-wrap: wrap;">
-                <input type="text" id="input-national-team" placeholder="Nazionale Guidata (es. Italia 🇮🇹)" style="max-width: 280px; margin-bottom: 0;">
-                <input type="text" id="input-national-comp" placeholder="Torneo Nazionale (es. Mondiali 2026)" style="max-width: 280px; margin-bottom: 0;">
-                <button class="btn-small" onclick="aggiornaNazionale()" style="background-color: var(--btn-green);">Imposta Nazionale</button>
-            </div>
-            <p style="margin: 5px 0 12px 0; color: var(--text-muted); font-size: 13px;">Stato Nazionale Attuale: <strong id="display-national" style="color: var(--accent-color);">Nessuna Nazionale Selezionata</strong></p>
-            
-            <table id="national-table">
-                <thead>
-                    <tr>
-                        <th>Ruolo</th>
-                        <th>Giocatore Convocato</th>
-                        <th>Club di Appartenenza</th>
-                        <th>Note / Status</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <!-- COMPETIZIONE EUROPEA (League Phase) -->
-        <div class="full-width-section">
-            <div class="section-header">
-                <h3>⭐ Competizione Europea (League Phase)</h3>
-                <button class="btn-small" onclick="aggiungiPartitaEuropa()">+ Aggiungi Partita Europa</button>
-            </div>
-            <div style="margin-bottom: 12px; display: flex; gap: 15px; flex-wrap: wrap;">
-                <select id="input-europe-comp" style="max-width: 280px; margin-bottom: 0;">
-                    <option value="UEFA Champions League">UEFA Champions League 🏆</option>
-                    <option value="UEFA Europa League">UEFA Europa League 🟠</option>
-                    <option value="UEFA Conference League">UEFA Conference League 🟢</option>
-                </select>
-                <button class="btn-small" onclick="aggiornaCompetizioneEuropa()" style="background-color: var(--btn-green);">Seleziona Torneo</button>
-            </div>
-            <p style="margin: 5px 0 12px 0; color: var(--text-muted); font-size: 13px;">Torneo Attivo: <strong id="display-europe-comp" style="color: var(--accent-color);">UEFA Champions League</strong></p>
-            
-            <table id="europe-table">
-                <thead>
-                    <tr>
-                        <th>Giornata</th>
-                        <th>Avversario</th>
-                        <th>Casa / Trasferta</th>
-                        <th>Risultato / Esito</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td contenteditable="true">1ª Giornata</td>
-                        <td contenteditable="true">Avversario Europeo</td>
-                        <td contenteditable="true">Casa 🏠</td>
-                        <td contenteditable="true">Da Giocare</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- CALENDARIO PARTITE -->
-        <div class="full-width-section">
-            <div class="section-header">
-                <h3>📅 Calendario Partite</h3>
-                <button class="btn-small" onclick="aggiungiRigaCalendario()">+ Aggiungi Giornata</button>
-            </div>
-            <table id="calendar-table">
-                <thead>
-                    <tr>
-                        <th>Giornata</th>
-                        <th>Avversario</th>
-                        <th>Luogo</th>
-                        <th>Stato / Risultato</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <!-- CALCIOMERCATO & TRATTATIVE -->
-        <div class="full-width-section">
-            <div class="section-header">
-                <h3>🔄 Calciomercato & Trattative</h3>
-                <button class="btn-small" onclick="aggiungiRigaMercato()">+ Aggiungi Trattativa</button>
-            </div>
-            <table id="market-table">
-                <thead>
-                    <tr>
-                        <th>Giocatore</th>
-                        <th>Ruolo</th>
-                        <th>Trattativa / Club</th>
-                        <th>Costo / Valutazione</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <!-- CLASSIFICA MARCATORI -->
-        <div class="full-width-section">
-            <div class="section-header">
-                <h3>⚽ I Miei Marcatori <span id="total-goals-badge" style="font-size: 13px; color: var(--accent-color); font-weight: normal; margin-left: 10px;">(Totale Gol: 0)</span></h3>
-                <button class="btn-small" onclick="aggiungiMarcatore()">+ Aggiungi Giocatore</button>
-            </div>
-            <table id="scorers-table">
-                <thead>
-                    <tr>
-                        <th>Giocatore</th>
-                        <th>Ruolo</th>
-                        <th>Gol Segnati</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <!-- CLASSIFICA ASSIST -->
-        <div class="full-width-section">
-            <div class="section-header">
-                <h3>🎯 I Miei Assist-man <span id="total-assists-badge" style="font-size: 13px; color: var(--accent-color); font-weight: normal; margin-left: 10px;">(Totale Assist: 0)</span></h3>
-                <button class="btn-small" onclick="aggiungiAssistman()">+ Aggiungi Giocatore</button>
-            </div>
-            <table id="assists-table">
-                <thead>
-                    <tr>
-                        <th>Giocatore</th>
-                        <th>Ruolo</th>
-                        <th>Assist Fatti</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
-
-        <!-- LA TUA ROSA & FORMAZIONE -->
-        <div class="full-width-section">
-            <div class="section-header">
-                <h3>📋 La Tua Rosa & Formazione Titolare</h3>
-                <button class="btn-small" onclick="aggiungiTitolare()">+ Aggiungi Giocatore</button>
-            </div>
-            <table id="roster-table">
-                <thead>
-                    <tr>
-                        <th>Ruolo</th>
-                        <th>Nome Giocatore</th>
-                        <th>Valutazione (OVR)</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-        </div>
     </div>
 
     <script>
@@ -900,13 +978,20 @@
         function cambiaTema(tema) {
             document.body.setAttribute('data-theme', tema);
             localStorage.setItem('fl26_tema', tema);
-            mostraToast("Tema cambiato con successo!");
+            mostraToast("Tema aggiornato!");
+        }
+
+        function cambiaTab(tabId, event) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
         }
 
         function iniziaCarriera() {
             document.getElementById('welcome-screen').style.display = 'none';
             document.getElementById('main-app').style.display = 'block';
-            let temaSalvato = localStorage.getItem('fl26_tema') || 'classic';
+            let temaSalvato = localStorage.getItem('fl26_tema') || 'emerald';
             document.body.setAttribute('data-theme', temaSalvato);
             document.getElementById('theme-changer').value = temaSalvato;
             calcolaStatisticheGlobali();
@@ -991,24 +1076,24 @@
             if (trofei !== "") document.getElementById('display-trophies').innerText = trofei;
             if (punti !== "") document.getElementById('table-pts').innerText = punti;
 
-            mostraToast("Scheda aggiornata correttamente!");
+            mostraToast("Scheda club aggiornata!");
         }
 
         function aggiungiInfermeria(giocatore = "Giocatore", ruolo = "RUOLO", stato = "Infortunio 🔴", tempo = "1 Settimana") {
             let table = document.getElementById('infermeria-table').getElementsByTagName('tbody')[0];
             let newRow = table.insertRow();
             newRow.innerHTML = `<td contenteditable="true">${giocatore}</td><td contenteditable="true">${ruolo}</td><td contenteditable="true">${stato}</td><td contenteditable="true">${tempo}</td>`;
-            mostraToast("Giocatore aggiunto in infermeria!");
+            mostraToast("Inserito in infermeria.");
         }
 
-        function aggiungiObiettivoMercato(giocatore = "Nome Talento", ruolo = "CC", club = "Club", priorita = "Alta 🔴") {
+        function aggiungiObiettivoMercato(giocatore = "Talento", ruolo = "CC", club = "Club", priorita = "Alta 🔴") {
             let table = document.getElementById('wishlist-table').getElementsByTagName('tbody')[0];
             let newRow = table.insertRow();
             newRow.innerHTML = `<td contenteditable="true">${giocatore}</td><td contenteditable="true">${ruolo}</td><td contenteditable="true">${club}</td><td contenteditable="true">${priorita}</td>`;
-            mostraToast("Obiettivo di mercato aggiunto!");
+            mostraToast("Obiettivo aggiunto alla wishlist.");
         }
 
-        function aggiungiTrofeoBacheca(nome = "Nome Trofeo / Coppa", stagione = "Stagione 2026/2027", icona = "🏆") {
+        function aggiungiTrofeoBacheca(nome = "Trofeo / Coppa", stagione = "2026/2027", icona = "🏆") {
             let container = document.getElementById('trophy-container');
             let card = document.createElement('div');
             card.className = 'trophy-card';
@@ -1020,7 +1105,7 @@
                 </div>
             `;
             container.appendChild(card);
-            mostraToast("Trofeo aggiunto alla bacheca!");
+            mostraToast("Trofeo aggiunto in bacheca.");
         }
 
         function aggiornaNazionale() {
@@ -1028,7 +1113,7 @@
             let natComp = document.getElementById('input-national-comp').value.trim();
             if (natTeam !== "" || natComp !== "") {
                 document.getElementById('display-national').innerText = `${natTeam} (${natComp})`;
-                mostraToast("Nazionale aggiornata!");
+                mostraToast("Nazionale aggiornata.");
             }
         }
 
@@ -1037,13 +1122,13 @@
             document.getElementById('display-europe-comp').innerText = selectComp;
         }
 
-        function aggiungiConvocato(ruolo = "ATT", nome = "Nome Giocatore", club = "Club", note = "Titolare") {
+        function aggiungiConvocato(ruolo = "ATT", nome = "Giocatore", club = "Club", note = "Titolare") {
             let table = document.getElementById('national-table').getElementsByTagName('tbody')[0];
             let newRow = table.insertRow();
             newRow.innerHTML = `<td contenteditable="true">${ruolo}</td><td contenteditable="true">${nome}</td><td contenteditable="true">${club}</td><td contenteditable="true">${note}</td>`;
         }
 
-        function aggiungiPartitaEuropa(giornata = "Giornata", avversario = "Avversario", luogo = "Casa 🏠", esito = "Da Giocare") {
+        function aggiungiPartitaEuropa(giornata = "1ª Giornata", avversario = "Avversario", luogo = "Casa 🏠", esito = "Da Giocare") {
             let table = document.getElementById('europe-table').getElementsByTagName('tbody')[0];
             let newRow = table.insertRow();
             newRow.innerHTML = `<td contenteditable="true">${giornata}</td><td contenteditable="true">${avversario}</td><td contenteditable="true">${luogo}</td><td contenteditable="true">${esito}</td>`;
@@ -1061,21 +1146,21 @@
             newRow.innerHTML = `<td contenteditable="true">${giocatore}</td><td contenteditable="true">${ruolo}</td><td contenteditable="true">${club}</td><td contenteditable="true">${costo}</td>`;
         }
 
-        function aggiungiMarcatore(nome = "Nome Giocatore", ruolo = "ATT", gol = "0") {
+        function aggiungiMarcatore(nome = "Giocatore", ruolo = "ATT", gol = "0") {
             let table = document.getElementById('scorers-table').getElementsByTagName('tbody')[0];
             let newRow = table.insertRow();
             newRow.innerHTML = `<td contenteditable="true">${nome}</td><td contenteditable="true">${ruolo}</td><td contenteditable="true">${gol}</td>`;
             calcolaStatisticheGlobali();
         }
 
-        function aggiungiAssistman(nome = "Nome Giocatore", ruolo = "CC", assist = "0") {
+        function aggiungiAssistman(nome = "Giocatore", ruolo = "CC", assist = "0") {
             let table = document.getElementById('assists-table').getElementsByTagName('tbody')[0];
             let newRow = table.insertRow();
             newRow.innerHTML = `<td contenteditable="true">${nome}</td><td contenteditable="true">${ruolo}</td><td contenteditable="true">${assist}</td>`;
             calcolaStatisticheGlobali();
         }
 
-        function aggiungiTitolare(ruolo = "POR", nome = "Nome Giocatore", ovr = "80") {
+        function aggiungiTitolare(ruolo = "POR", nome = "Giocatore", ovr = "80") {
             let table = document.getElementById('roster-table').getElementsByTagName('tbody')[0];
             let newRow = table.insertRow();
             newRow.innerHTML = `<td contenteditable="true">${ruolo}</td><td contenteditable="true">${nome}</td><td contenteditable="true">${ovr}</td>`;
@@ -1146,7 +1231,7 @@
         function salvaCarrieraCorrente() {
             let nomeCarriera = document.getElementById('career-name-input').value.trim();
             if (!nomeCarriera) {
-                mostraToast("Inserisci un nome per la carriera!");
+                mostraToast("Inserisci un nome per la carriera.");
                 return;
             }
 
@@ -1154,7 +1239,7 @@
             localStorage.setItem("fl26_carriera_" + nomeCarriera, JSON.stringify(datiCarriera));
             carrieraCorrente = nomeCarriera;
             aggiornaListaCarriere();
-            mostraToast("Carriera '" + nomeCarriera + "' salvata con successo!");
+            mostraToast("Carriera '" + nomeCarriera + "' salvata!");
         }
 
         function esportaCarrieraJSON() {
@@ -1168,7 +1253,7 @@
             document.body.appendChild(downloadAnchor);
             downloadAnchor.click();
             downloadAnchor.remove();
-            mostraToast("Backup JSON esportato con successo!");
+            mostraToast("Backup JSON esportato.");
         }
 
         function importaCarrieraJSON(event) {
@@ -1186,7 +1271,7 @@
                     applicaDatiCarriera(data, nomeCarriera);
                     mostraToast("Carriera importata con successo!");
                 } catch (err) {
-                    mostraToast("Errore durante l'importazione del file!");
+                    mostraToast("Errore durante l'importazione.");
                 }
             };
             reader.readAsText(file);
@@ -1207,7 +1292,7 @@
 
         function aggiornaListaCarriere() {
             let select = document.getElementById('saved-careers-select');
-            select.innerHTML = '<option value="">Seleziona carriera salvata...</option>';
+            select.innerHTML = '<option value="">Carriera salvata...</option>';
             
             for (let i = 0; i < localStorage.length; i++) {
                 let key = localStorage.key(i);
@@ -1232,7 +1317,7 @@
 
             let data = JSON.parse(savedData);
             applicaDatiCarriera(data, nome);
-            mostraToast("Carriera '" + nome + "' caricata!");
+            mostraToast("Carriera '" + nome + "' caricata.");
         }
 
         function loadTableData(tableId, data) {
