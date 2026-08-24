@@ -329,7 +329,7 @@
             <!-- SCHEDA DELLA SQUADRA -->
             <div class="card">
                 <div class="team-logo-container" id="logo-box">
-                    <!-- NUOVO LOGO PERSONALIZZATO CON FL, PALLONE E COPPE LATERALI -->
+                    <!-- LOGO PERSONALIZZATO FL CON COPPE E PALLONE -->
                     <svg viewBox="0 0 120 100" width="60" height="50">
                         <!-- Coppa sinistra -->
                         <path d="M15,35 L25,35 L23,55 C23,60 17,62 15,62 C13,62 7,60 7,55 L5,35 Z" fill="#e3b341"/>
@@ -431,6 +431,42 @@
                     </tr>
                 </thead>
                 <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- COMPETIZIONE EUROPEA (League Phase) -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <h3>⭐ Competizione Europea (League Phase)</h3>
+                <button class="btn-small" onclick="aggiungiPartitaEuropa()">+ Aggiungi Partita Europa</button>
+            </div>
+            <div style="margin-bottom: 12px; display: flex; gap: 15px; flex-wrap: wrap;">
+                <select id="input-europe-comp" style="max-width: 280px; margin-bottom: 0;">
+                    <option value="UEFA Champions League">UEFA Champions League 🏆</option>
+                    <option value="UEFA Europa League">UEFA Europa League 🟠</option>
+                    <option value="UEFA Conference League">UEFA Conference League 🟢</option>
+                </select>
+                <button class="btn-small" onclick="aggiornaCompetizioneEuropa()" style="background-color: #238636;">Seleziona Torneo</button>
+            </div>
+            <p style="margin: 5px 0 12px 0; color: #8b949e; font-size: 13px;">Torneo Attivo: <strong id="display-europe-comp" style="color: #58a6ff;">UEFA Champions League</strong></p>
+            
+            <table id="europe-table">
+                <thead>
+                    <tr>
+                        <th>Giornata</th>
+                        <th>Avversario</th>
+                        <th>Casa / Trasferta</th>
+                        <th>Risultato / Esito</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable="true">1ª Giornata</td>
+                        <td contenteditable="true">Avversario Europeo</td>
+                        <td contenteditable="true">Casa 🏠</td>
+                        <td contenteditable="true">Da Giocare</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
 
@@ -604,10 +640,21 @@
             }
         }
 
+        function aggiornaCompetizioneEuropa() {
+            let selectComp = document.getElementById('input-europe-comp').value;
+            document.getElementById('display-europe-comp').innerText = selectComp;
+        }
+
         function aggiungiConvocato(ruolo = "ATT", nome = "Nome Giocatore", club = "Club", note = "Titolare") {
             let table = document.getElementById('national-table').getElementsByTagName('tbody')[0];
             let newRow = table.insertRow();
             newRow.innerHTML = `<td contenteditable="true">${ruolo}</td><td contenteditable="true">${nome}</td><td contenteditable="true">${club}</td><td contenteditable="true">${note}</td>`;
+        }
+
+        function aggiungiPartitaEuropa(giornata = "Giornata", avversario = "Avversario", luogo = "Casa 🏠", esito = "Da Giocare") {
+            let table = document.getElementById('europe-table').getElementsByTagName('tbody')[0];
+            let newRow = table.insertRow();
+            newRow.innerHTML = `<td contenteditable="true">${giornata}</td><td contenteditable="true">${avversario}</td><td contenteditable="true">${luogo}</td><td contenteditable="true">${esito}</td>`;
         }
 
         function aggiungiRigaCalendario(giornata = "1ª Giornata", avversario = "Avversario", luogo = "Casa 🏠", stato = "Da Giocare") {
@@ -657,6 +704,7 @@
                 trophies: document.getElementById('display-trophies').innerText,
                 pts: document.getElementById('table-pts').innerText,
                 nationalText: document.getElementById('display-national').innerText,
+                europeComp: document.getElementById('display-europe-comp').innerText,
                 logoHtml: document.getElementById('logo-box').innerHTML,
                 
                 calendar: getTableData('calendar-table'),
@@ -664,7 +712,8 @@
                 scorers: getTableData('scorers-table'),
                 assists: getTableData('assists-table'),
                 roster: getTableData('roster-table'),
-                national: getTableData('national-table')
+                national: getTableData('national-table'),
+                europeMatches: getTableData('europe-table')
             };
 
             localStorage.setItem("fl26_carriera_" + nomeCarriera, JSON.stringify(datiCarriera));
@@ -723,6 +772,10 @@
             document.getElementById('display-trophies').innerText = data.trophies;
             document.getElementById('table-pts').innerText = data.pts;
             if(data.nationalText) document.getElementById('display-national').innerText = data.nationalText;
+            if(data.europeComp) {
+                document.getElementById('display-europe-comp').innerText = data.europeComp;
+                document.getElementById('input-europe-comp').value = data.europeComp;
+            }
             document.getElementById('logo-box').innerHTML = data.logoHtml;
 
             loadTableData('calendar-table', data.calendar);
@@ -731,6 +784,7 @@
             loadTableData('assists-table', data.assists);
             loadTableData('roster-table', data.roster);
             loadTableData('national-table', data.national);
+            loadTableData('europe-table', data.europeMatches);
         }
 
         function loadTableData(tableId, data) {
