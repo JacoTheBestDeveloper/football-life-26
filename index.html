@@ -419,7 +419,6 @@
         .trophy-info h5 { margin: 0; font-size: 14px; color: var(--text-main); }
         .trophy-info p { margin: 2px 0 0 0; font-size: 12px; color: var(--text-muted); }
 
-        /* Galleria Scudetti rapida */
         .badge-gallery {
             display: flex;
             gap: 12px;
@@ -639,6 +638,33 @@
                 <h3>📝 Diario dell'Allenatore & Note Tattiche</h3>
             </div>
             <textarea id="manager-diary" placeholder="Scrivi qui gli obiettivi della dirigenza, le idee di formazione, i colpi di mercato pianificati o il riassunto della stagione..."></textarea>
+        </div>
+
+        <!-- INFERMERIA & SQUALIFICHE (NUOVO!) -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <h3>🏥 Infermeria & Squalifiche</h3>
+                <button class="btn-small" onclick="aggiungiInfermeria()">+ Aggiungi Giocatore</button>
+            </div>
+            <p style="margin: 0 0 10px 0; color: var(--text-muted); font-size: 13px;">Monitora i giocatori indisponibili per infortunio o squalifica in vista dei prossimi impegni:</p>
+            <table id="infermeria-table">
+                <thead>
+                    <tr>
+                        <th>Giocatore</th>
+                        <th>Ruolo</th>
+                        <th>Stato (Infortunio / Squalifica)</th>
+                        <th>Tempo di Rec./ Giornate di Stop</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable="true">Nome Giocatore</td>
+                        <td contenteditable="true">CC</td>
+                        <td contenteditable="true">Distorsione (Infortunio) 🔴</td>
+                        <td contenteditable="true">3 Settimane</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
 
         <!-- OBIETTIVI DI MERCATO / WISHLIST -->
@@ -968,6 +994,13 @@
             mostraToast("Scheda aggiornata correttamente!");
         }
 
+        function aggiungiInfermeria(giocatore = "Giocatore", ruolo = "RUOLO", stato = "Infortunio 🔴", tempo = "1 Settimana") {
+            let table = document.getElementById('infermeria-table').getElementsByTagName('tbody')[0];
+            let newRow = table.insertRow();
+            newRow.innerHTML = `<td contenteditable="true">${giocatore}</td><td contenteditable="true">${ruolo}</td><td contenteditable="true">${stato}</td><td contenteditable="true">${tempo}</td>`;
+            mostraToast("Giocatore aggiunto in infermeria!");
+        }
+
         function aggiungiObiettivoMercato(giocatore = "Nome Talento", ruolo = "CC", club = "Club", priorita = "Alta 🔴") {
             let table = document.getElementById('wishlist-table').getElementsByTagName('tbody')[0];
             let newRow = table.insertRow();
@@ -1064,6 +1097,7 @@
                 logoHtml: document.getElementById('logo-box').innerHTML,
                 trophiesHtml: document.getElementById('trophy-container').innerHTML,
                 
+                infermeria: getTableData('infermeria-table'),
                 wishlist: getTableData('wishlist-table'),
                 calendar: getTableData('calendar-table'),
                 market: getTableData('market-table'),
@@ -1096,6 +1130,7 @@
             document.getElementById('logo-box').innerHTML = data.logoHtml;
             if(data.trophiesHtml) document.getElementById('trophy-container').innerHTML = data.trophiesHtml;
 
+            loadTableData('infermeria-table', data.infermeria);
             loadTableData('wishlist-table', data.wishlist);
             loadTableData('calendar-table', data.calendar);
             loadTableData('market-table', data.market);
