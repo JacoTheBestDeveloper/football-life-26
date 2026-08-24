@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Life 26 - Career Hub</title>
+    <style>
+        body {
+            background: linear-gradient(135deg, #091a10 0%, #0d2818 50%, #051009 100%);
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            margin: 0;
+            min-height: 100vh;
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 60px,
+                rgba(255, 255, 255, 0.03) 60px,
+                rgba(255, 255, 255, 0.03) 120px
+            );
+            pointer-events: none;
+        }
+
+        .signature {
+            position: fixed;
+            bottom: 15px;
+            right: 20px;
+            color: #8b949e;
+            font-size: 13px;
+            letter-spacing: 1px;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+            z-index: 1000;
+        }
+
+        /* Schermata di Benvenuto */
+        #welcome-screen {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 75vh;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        #welcome-screen h1 {
+            font-size: 42px;
+            color: #58a6ff;
+            margin-bottom: 10px;
+            text-shadow: 0 4px 12px rgba(0,0,0,0.8);
+        }
+        #welcome-screen p {
+            color: #c9d1d9;
+            font-size: 16px;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 6px rgba(0,0,0,0.8);
+        }
+        .btn-start {
+            padding: 15px 40px;
+            background-color: #238636;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(35, 134, 54, 0.6);
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .btn-start:hover {
+            background-color: #2ea043;
+            transform: scale(1.05);
+        }
+
+        /* Dashboard Principale */
+        #main-app {
+            display: none;
+            width: 100%;
+            max-width: 1100px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .main-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .main-title h2 {
+            margin: 0;
+            font-size: 28px;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.8);
+        }
+        .main-title p {
+            margin: 5px 0 0 0;
+            color: #8b949e;
+            font-size: 14px;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .card, .controls, .table-box {
+            background-color: rgba(22, 27, 34, 0.92);
+            backdrop-filter: blur(6px);
+            border: 2px solid #30363d;
+            border-radius: 12px;
+            padding: 20px;
+            width: 330px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+            margin-bottom: 20px;
+        }
+        
+        .team-logo-container {
+            text-align: center;
+            margin-bottom: 10px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .team-logo-container img {
+            max-height: 50px;
+            max-width: 50px;
+            object-fit: contain;
+        }
+        .fallback-icon {
+            font-size: 40px;
+        }
+
+        .card h3, .controls h3, .table-box h3 {
+            margin-top: 0;
+            color: #58a6ff;
+            font-size: 16px;
+            text-align: center;
+        }
+        .season {
+            color: #8b949e;
+            font-size: 13px;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .stats {
+            background-color: rgba(33, 38, 45, 0.8);
+            padding: 12px;
+            border-radius: 8px;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+        .stat-row:last-child {
+            margin-bottom: 0;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            background-color: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #ffffff;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #238636;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #2ea043;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+        th, td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #30363d;
+        }
+        th {
+            color: #8b949e;
+        }
+
+        /* Celle modificabili direttamente con un click */
+        [contenteditable="true"] {
+            outline: 1px dashed rgba(88, 166, 255, 0.4);
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        [contenteditable="true"]:focus {
+            outline: 2px solid #58a6ff;
+            background-color: rgba(13, 17, 23, 0.8);
+        }
+
+        .full-width-section {
+            background-color: rgba(22, 27, 34, 0.92);
+            backdrop-filter: blur(6px);
+            border: 2px solid #30363d;
+            border-radius: 12px;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.7);
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .section-header h3 {
+            margin: 0;
+            color: #58a6ff;
+            font-size: 16px;
+        }
+        .btn-small {
+            width: auto;
+            padding: 5px 12px;
+            font-size: 12px;
+            background-color: #30363d;
+        }
+        .btn-small:hover {
+            background-color: #484f58;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="signature">By Jaco</div>
+
+    <!-- 1. SCHERMATA DI BENVENUTO -->
+    <div id="welcome-screen">
+        <h1>🎮 FOOTBALL LIFE 26</h1>
+        <p>Gestisci le tue Master League e Dinastie Calcistiche</p>
+        <button class="btn-start" onclick="iniziaCarriera()">INIZIA CARRIERA</button>
+    </div>
+
+    <!-- 2. APPLICAZIONE PRINCIPALE -->
+    <div id="main-app">
+        <div class="main-title">
+            <h2>FOOTBALL LIFE 26 - HUB CARRIERA</h2>
+            <p>Pannello di controllo tattico e gestionale</p>
+        </div>
+
+        <div class="container">
+            <!-- SCHEDA DELLA SQUADRA -->
+            <div class="card">
+                <div class="team-logo-container" id="logo-box">
+                    <div class="fallback-icon">⚽</div>
+                </div>
+                <h3 id="display-team">La Tua Squadra</h3>
+                <div class="season">Stagione 2026/2027 • Master League</div>
+                
+                <div class="stats">
+                    <div class="stat-row">
+                        <span>Allenatore:</span>
+                        <strong id="display-coach">Il tuo Nome</strong>
+                    </div>
+                    <div class="stat-row">
+                        <span>Competizione:</span>
+                        <strong id="display-league">Serie A</strong>
+                    </div>
+                    <div class="stat-row">
+                        <span>Trofei vinti:</span>
+                        <strong id="display-trophies">0</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PANNELLO DI MODIFICA -->
+            <div class="controls">
+                <h3>Gestione Dati</h3>
+                <input type="text" id="input-team" placeholder="Nome Squadra (es. Inter, Milan, Juve)">
+                <input type="text" id="input-coach" placeholder="Nome Allenatore">
+                <input type="text" id="input-league" placeholder="Competizione / Campionato">
+                <input type="number" id="input-trophies" placeholder="Trofei vinti">
+                <input type="number" id="input-pts" placeholder="Punti in classifica">
+                <button onclick="aggiornaDati()">Aggiorna Scheda</button>
+            </div>
+
+            <!-- CLASSIFICA RAPIDA -->
+            <div class="table-box">
+                <h3>Fronte Classifica</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Pos</th>
+                            <th>Squadra</th>
+                            <th>Pt</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1°</td>
+                            <td id="table-first">La Tua Squadra</td>
+                            <td id="table-pts">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- CALENDARIO PARTITE CUSTOMIZZABILE -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <h3>📅 Calendario Partite (Clicca sul testo per modificarlo)</h3>
+                <button class="btn-small" onclick="aggiungiRigaCalendario()">+ Aggiungi Giornata</button>
+            </div>
+            <table id="calendar-table">
+                <thead>
+                    <tr>
+                        <th>Giornata</th>
+                        <th>Avversario</th>
+                        <th>Luogo</th>
+                        <th>Stato / Risultato</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable="true">1ª Giornata</td>
+                        <td contenteditable="true">Atalanta</td>
+                        <td contenteditable="true">Casa 🏠</td>
+                        <td contenteditable="true">Da Giocare</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">2ª Giornata</td>
+                        <td contenteditable="true">Milan</td>
+                        <td contenteditable="true">Trasferta ✈️</td>
+                        <td contenteditable="true">Da Giocare</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">3ª Giornata</td>
+                        <td contenteditable="true">Juventus</td>
+                        <td contenteditable="true">Casa 🏠</td>
+                        <td contenteditable="true">Da Giocare</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- CALCIOMERCATO CUSTOMIZZABILE -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <h3>🔄 Calciomercato & Trattative (Customizzabile)</h3>
+                <button class="btn-small" onclick="aggiungiRigaMercato()">+ Aggiungi Trattativa</button>
+            </div>
+            <table id="market-table">
+                <thead>
+                    <tr>
+                        <th>Giocatore</th>
+                        <th>Ruolo</th>
+                        <th>Trattativa / Club</th>
+                        <th>Costo / Valutazione</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable="true">Kylian Mbappé</td>
+                        <td contenteditable="true">ATT</td>
+                        <td contenteditable="true">Real Madrid (Incedibile)</td>
+                        <td contenteditable="true">€ 180M</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">Cole Palmer</td>
+                        <td contenteditable="true">TRQ</td>
+                        <td contenteditable="true">Chelsea (In trattativa)</td>
+                        <td contenteditable="true">€ 75M</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">Alessandro Bastoni</td>
+                        <td contenteditable="true">DC</td>
+                        <td contenteditable="true">Inter (Titolare)</td>
+                        <td contenteditable="true">€ 70M</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- ROSE UFFICIALI / ALTRE SQUADRE -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <h3>🛡️ Rose Ufficiali Altre Squadre</h3>
+                <button class="btn-small" onclick="aggiungiRosaSquadra()">+ Aggiungi Squadra</button>
+            </div>
+            <table id="teams-roster-table">
+                <thead>
+                    <tr>
+                        <th>Squadra</th>
+                        <th>Giocatore Chiave 1</th>
+                        <th>Giocatore Chiave 2</th>
+                        <th>Giocatore Chiave 3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable="true">Real Madrid</td>
+                        <td contenteditable="true">K. Mbappé (OVR 91)</td>
+                        <td contenteditable="true">J. Bellingham (OVR 90)</td>
+                        <td contenteditable="true">Vinicius Jr (OVR 90)</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">Manchester City</td>
+                        <td contenteditable="true">E. Haaland (OVR 91)</td>
+                        <td contenteditable="true">K. De Bruyne (OVR 90)</td>
+                        <td contenteditable="true">Rodri (OVR 91)</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">Inter</td>
+                        <td contenteditable="true">L. Martínez (OVR 89)</td>
+                        <td contenteditable="true">H. Çalhanoğlu (OVR 86)</td>
+                        <td contenteditable="true">N. Barella (OVR 87)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- SEZIONE ROSA / FORMAZIONE DELLA TUA SQUADRA -->
+        <div class="full-width-section">
+            <div class="section-header">
+                <h3>📋 La Tua Rosa & Formazione Titolare</h3>
+                <button class="btn-small" onclick="aggiungiTitolare()">+ Aggiungi Giocatore</button>
+            </div>
+            <table id="roster-table">
+                <thead>
+                    <tr>
+                        <th>Ruolo</th>
+                        <th>Nome Giocatore</th>
+                        <th>Valutazione (OVR)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td contenteditable="true">POR</td>
+                        <td contenteditable="true">Portiere Titolare</td>
+                        <td contenteditable="true">85</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">DC</td>
+                        <td contenteditable="true">Difensore Centrale</td>
+                        <td contenteditable="true">86</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">CC</td>
+                        <td contenteditable="true">Centrocampista Regista</td>
+                        <td contenteditable="true">88</td>
+                    </tr>
+                    <tr>
+                        <td contenteditable="true">ATT</td>
+                        <td contenteditable="true">Bomber / Punta Centrale</td>
+                        <td contenteditable="true">90</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Loghi ufficiali testati tramite CDN affidabili
+        const loghiSquadre = {
+            "inter": "https://a.espncdn.com/i/teamlogos/soccer/505/110.png",
+            "milan": "https://a.espncdn.com/i/teamlogos/soccer/505/103.png",
+            "juventus": "https://a.espncdn.com/i/teamlogos/soccer/505/111.png",
+            "juve": "https://a.espncdn.com/i/teamlogos/soccer/505/111.png",
+            "napoli": "https://a.espncdn.com/i/teamlogos/soccer/505/607.png",
+            "roma": "https://a.espncdn.com/i/teamlogos/soccer/505/104.png",
+            "lazio": "https://a.espncdn.com/i/teamlogos/soccer/505/112.png",
+            "atalanta": "https://a.espncdn.com/i/teamlogos/soccer/505/113.png",
+            "real madrid": "https://a.espncdn.com/i/teamlogos/soccer/505/86.png",
+            "barcelona": "https://a.espncdn.com/i/teamlogos/soccer/505/83.png",
+            "milan": "https://a.espncdn.com/i/teamlogos/soccer/505/103.png"
+        };
+
+        function iniziaCarriera() {
+            document.getElementById('welcome-screen').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+        }
+
+        function aggiornaDati() {
+            let squadraInput = document.getElementById('input-team').value.trim();
+            let allenatore = document.getElementById('input-coach').value;
+            let competizione = document.getElementById('input-league').value;
+            let trofei = document.getElementById('input-trophies').value;
+            let punti = document.getElementById('input-pts').value;
+
+            if (squadraInput !== "") {
+                document.getElementById('display-team').innerText = squadraInput;
+                document.getElementById('table-first').innerText = squadraInput;
+
+                let chiave = squadraInput.toLowerCase();
+                let logoBox = document.getElementById('logo-box');
+                
+                if (loghiSquadre[chiave]) {
+                    logoBox.innerHTML = `<img src="${loghiSquadre[chiave]}" alt="${squadraInput}">`;
+                } else {
+                    logoBox.innerHTML = `<div class="fallback-icon">🛡️</div>`;
+                }
+            }
+            if (allenatore !== "") document.getElementById('display-coach').innerText = allenatore;
+            if (competizione !== "") document.getElementById('display-league').innerText = competizione;
+            if (trofei !== "") document.getElementById('display-trophies').innerText = trofei;
+            if (punti !== "") document.getElementById('table-pts').innerText = punti;
+        }
+
+        // Funzioni per aggiungere righe personalizzate alle tabelle
+        function aggiungiRigaCalendario() {
+            let table = document.getElementById('calendar-table').getElementsByTagName('tbody')[0];
+            let newRow = table.insertRow();
+            newRow.innerHTML = `<td contenteditable="true">Nuova Giornata</td><td contenteditable="true">Avversario</td><td contenteditable="true">Casa 🏠</td><td contenteditable="true">Da Giocare</td>`;
+        }
+
+        function aggiungiRigaMercato() {
+            let table = document.getElementById('market-table').getElementsByTagName('tbody')[0];
+            let newRow = table.insertRow();
+            newRow.innerHTML = `<td contenteditable="true">Nome Giocatore</td><td contenteditable="true">Ruolo</td><td contenteditable="true">Club / Trattativa</td><td contenteditable="true">€ 0M</td>`;
+        }
+
+        function aggiungiRosaSquadra() {
+            let table = document.getElementById('teams-roster-table').getElementsByTagName('tbody')[0];
+            let newRow = table.insertRow();
+            newRow.innerHTML = `<td contenteditable="true">Nome Squadra</td><td contenteditable="true">Giocatore 1</td><td contenteditable="true">Giocatore 2</td><td contenteditable="true">Giocatore 3</td>`;
+        }
+
+        function aggiungiTitolare() {
+            let table = document.getElementById('roster-table').getElementsByTagName('tbody')[0];
+            let newRow = table.insertRow();
+            newRow.innerHTML = `<td contenteditable="true">RUO</td><td contenteditable="true">Nome Giocatore</td><td contenteditable="true">80</td>`;
+        }
+    </script>
+
+</body>
+</html>
